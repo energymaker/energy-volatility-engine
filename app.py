@@ -134,7 +134,7 @@ try:
     visual_grid.add_trace(go.Scatter(x=df.index, y=df['Conditional_Variance_Risk'], name="GARCH Risk Line", line=dict(color='#FF9F43', width=1.4)), row=1, col=2)
     visual_grid.add_trace(go.Histogram(x=df['Log_Returns'], nbinsx=60, name="Return Density Mapping", marker_color='rgba(0, 210, 255, 0.25)', histnorm='probability density'), row=2, col=1)
     visual_grid.add_vline(x=var_limit, line_width=1.5, line_dash="dash", line_color="#EF4444", row=2, col=1)
-    visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Risk Path", line=dict(color='#EF4444', width=2, dash='shortdash')), row=2, col=2)
+    visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Risk Path", line=dict(color='#EF4444', width=2, dash='dash')), row=2, col=2)
     
     visual_grid.update_layout(template="plotly_dark", height=600, showlegend=False, margin=dict(l=0, r=0, t=25, b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
     st.plotly_chart(visual_grid, use_container_width=True)
