@@ -101,6 +101,16 @@ st.markdown("""
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         
+        /* High Contrast Hard-Forced Date Labels */
+        .fw-wire-date {
+            color: #0F172A !important;
+            font-size: 11px !important;
+            font-family: Arial, sans-serif !important;
+            text-transform: uppercase !important;
+            font-weight: 800 !important;
+            display: inline-block !important;
+        }
+        
         /* Interactive Link Styling */
         .fw-wire-link {
             color: #0284C7 !important;
@@ -328,9 +338,7 @@ try:
         <div class="fw-news-wire-row">
             <a href="{article_url}" target="_blank" class="fw-wire-link">{headline_text}</a>
             <br>
-            <span style="color: #0F172A !important; font-size: 11px; text-transform: uppercase; font-weight: 800;">
-                DATE: {publish_date} &nbsp;&nbsp; {sentiment_tag}
-            </span>
+            <span class="fw-wire-date">DATE: {publish_date}</span> &nbsp;&nbsp; {sentiment_tag}
         </div>
         """, unsafe_allow_html=True)
 
