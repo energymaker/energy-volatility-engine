@@ -153,7 +153,6 @@ try:
         """)
     with weather_layout_right:
         st.markdown(f"##### Localized Climate Footprint: {asset_info['hq']}")
-        # Generates a professional data matrix showing localized load parameters
         climatological_matrix = pd.DataFrame({
             'Asset Node Parameters': ['Target Operational Node Location', 'Regional Degree Day Base Variance', '14-Day Baseline Thermal Deviation Projection'],
             'Metric Ingestion Reading': [asset_info['hq'], 'Baseline Normalized (+1.4% Seasonal Shift)', '+2.8 Fahrenheit vs Historical Mean Vector'],
@@ -161,26 +160,12 @@ try:
         })
         st.table(climatological_matrix)
 
-    st.markdown("---")
-
+    # ----------------------------------------------------
     # Live Streaming Terminal Feed & NLP Text Sentiment Architecture
-    st.markdown("### Real-Time Live Market Feed & Alternative Data Sentiment Analysis")
-    
-    rss_feed_endpoint = "https://rss.nytimes.com/services/xml/rss/nt/EnergyEnvironment.xml"
-    parsed_headlines = feedparser.parse(rss_feed_endpoint)
-    
-    if parsed_headlines.entries:
-        for item in parsed_headlines.entries[:6]:
-            headline_text = item.title
-            article_snippet = item.summary if 'summary' in item else ""
-
-            # ----------------------------------------------------
-    # 8. Live Market Feed & Real-Time Sentiment Matrix
     # ----------------------------------------------------
     st.markdown("---")
     st.markdown("### Real-Time Live Market Feed & Alternative Data Sentiment Analysis")
     
-    # Cascade Failover Array to bypass structural data drops
     FEED_ENDPOINTS = [
         "https://search.cnbc.com/rs/search/all/view.rss?partnerId=2000&keywords=energy",
         "https://rss.nytimes.com/services/xml/rss/nt/EnergyEnvironment.xml",
@@ -190,7 +175,6 @@ try:
     parsed_headlines = None
     headlines_extracted = []
     
-    # Sequentially ping fallback nodes if a main media source blocks requests
     for endpoint in FEED_ENDPOINTS:
         try:
             feed_data = feedparser.parse(endpoint)
@@ -201,7 +185,6 @@ try:
         except Exception:
             continue
 
-    # Institutional baseline backstops in case entire network experiences corporate proxy drops
     if not headlines_extracted:
         class BackupArticle:
             def __init__(self, title, summary, published):
@@ -216,13 +199,11 @@ try:
             BackupArticle("Offshore Production Infrastructure Outpaces Seasonal Baselines", "Subsea extraction operations track minimal disruption cycles across deepwater asset networks.", "Production Node Update")
         ]
 
-    # Render Active Live Extraction Feed
     for item in headlines_extracted:
         headline_text = item.title
         article_snippet = item.summary if hasattr(item, 'summary') else ""
         publish_date = item.published if hasattr(item, 'published') else "Active Terminal Session"
         
-        # Real-time NLP Evaluation Sequence
         nlp_processing_blob = TextBlob(headline_text)
         linguistic_sentiment_score = nlp_processing_blob.sentiment.polarity
         
@@ -240,27 +221,6 @@ try:
             <span style="color: #94A3B8;">{article_snippet}</span>
         </div>
         """, unsafe_allow_html=True)
-            
-            # NLP Sentiment Scripting Engine execution
-            nlp_processing_blob = TextBlob(headline_text)
-            linguistic_sentiment_score = nlp_processing_blob.sentiment.polarity
-            
-            if linguistic_sentiment_score < -0.02:
-                sentiment_classification = '<span class="indicator-bearish">STRUCTURAL SUPPLY IMPACT / BEARISH RISK</span>'
-            elif linguistic_sentiment_score > 0.02:
-                sentiment_classification = '<span class="indicator-bullish">DEMAND TAILWIND SHIFT / BULLISH INFLOW</span>'
-            else:
-                sentiment_classification = '<span class="indicator-neutral">STABLE SYSTEM NODE / REVENUE NEUTRAL</span>'
-                
-            st.markdown(f"""
-            <div class="news-headline-row">
-                <strong>{headline_text}</strong><br>
-                <span style="color: #64748B; font-size: 11px;">{item.published if 'published' in item else ''} | Sentiment Matrix Evaluation: {sentiment_classification}</span><br>
-                <span style="color: #94A3B8;">{article_snippet}</span>
-            </div>
-            """, unsafe_allow_html=True)
-    else:
-        st.markdown("<span class=\"indicator-neutral\">Real-time intelligence feed connecting to central servers.</span>", unsafe_allow_html=True)
 
 except Exception as data_exception:
     st.error(f"Central terminal synchronization delay encountered. Diagnostic code parameters: {data_exception}")
