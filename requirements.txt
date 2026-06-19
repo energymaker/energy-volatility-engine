@@ -4,3 +4,4 @@ arch
 pandas
 numpy
 streamlit
+scipy
