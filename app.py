@@ -10,29 +10,25 @@ import feedparser
 from textblob import TextBlob
 
 # ----------------------------------------------------
-# 1. Advanced Institutional Interface Stylesheet (Light Isometric Matrix)
+# 1. High-Contrast Light Terminal Stylesheet Injection
 # ----------------------------------------------------
 st.set_page_config(page_title="GLOBAL ENERGY MATRIX TERMINAL", layout="wide")
 
-# High-contrast stylesheet injection forcing dark text on all native elements
 st.markdown("""
     <style>
-        /* Base Canvas - Forced Light Background with Subtle Geometric Accents */
-        .reportview-container { background-color: #FAFAFA !important; }
-        .stApp { 
-            background-color: #FAFAFA !important;
-            background-image: 
-                linear-gradient(30deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
-                linear-gradient(150deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
-                linear-gradient(300deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
-                linear-gradient(210deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
-                linear-gradient(30deg, #F1F5F9 38%, transparent 38.5%, transparent 61%, #F1F5F9 61.5%, #F1F5F9),
-                linear-gradient(150deg, #F1F5F9 38%, transparent 38.5%, transparent 61%, #F1F5F9 61.5%, #F1F5F9);
-            background-size: 40px 70px;
-            background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
+        /* Force explicit white background and dark text on the main canvas */
+        .reportview-container, .stApp { 
+            background-color: #FFFFFF !important;
+            background-image: none !important;
+            color: #0F172A !important;
         }
         
-        /* Corporate Rigid Block Header Layout */
+        /* Force global text elements inside markdown to be readable black */
+        p, span, label, li, h1, h2, h3, h4, h5, h6 {
+            color: #0F172A !important;
+        }
+
+        /* Corporate Header Styling */
         .fw-terminal-header {
             background-color: #FFFFFF;
             border-top: 5px solid #0F172A;
@@ -41,14 +37,12 @@ st.markdown("""
             border-right: 2px solid #0F172A;
             padding: 24px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
         .fw-terminal-title {
             color: #0F172A !important;
-            font-family: 'Helvetica Neue', Arial, sans-serif !important;
+            font-family: Arial, sans-serif !important;
             font-size: 26px !important;
             font-weight: 900 !important;
-            letter-spacing: -0.5px !important;
             text-transform: uppercase !important;
             margin: 0 !important;
         }
@@ -62,7 +56,7 @@ st.markdown("""
             margin-top: 6px !important;
         }
 
-        /* Sidebar Container Styling Overrides */
+        /* Sidebar Inputs Container - Crisp White Contrast */
         div[data-testid="stSidebar"] { 
             background-color: #FFFFFF !important; 
             border-right: 2px solid #0F172A !important; 
@@ -72,10 +66,9 @@ st.markdown("""
             font-weight: 700 !important;
             font-size: 12px !important;
             text-transform: uppercase !important;
-            letter-spacing: 0.5px;
         }
         
-        /* Dropdown Options Absolute Contrast Fixes */
+        /* Dropdown/Selectbox Options Absolute Visibility Fixes */
         div[data-baseweb="select"] > div {
             background-color: #FFFFFF !important;
             color: #0F172A !important;
@@ -86,22 +79,36 @@ st.markdown("""
             background-color: #FFFFFF !important;
         }
         
-        /* Core Data Grid Matrix */
-        .fw-matrix-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 25px; border: 2px solid #0F172A; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-        .fw-matrix-table td { border: 1px solid #0F172A; padding: 12px 16px; background-color: #FFFFFF; color: #0F172A !important; font-weight: 600; }
-        .fw-hdr-label { background-color: #F1F5F9 !important; color: #0F172A !important; font-weight: 800 !important; text-transform: uppercase; width: 18%; }
+        /* Data Grid Tables Grid Engine */
+        .fw-matrix-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 13px; 
+            margin-bottom: 25px; 
+            border: 2px solid #0F172A; 
+        }
+        .fw-matrix-table td { 
+            border: 1px solid #0F172A; 
+            padding: 12px 16px; 
+            background-color: #FFFFFF; 
+            color: #0F172A !important; 
+            font-weight: 600; 
+        }
+        .fw-hdr-label { 
+            background-color: #F1F5F9 !important; 
+            color: #0F172A !important; 
+            font-weight: 800 !important; 
+            text-transform: uppercase; 
+        }
         
-        /* Infrastructure Wire Rows */
+        /* News Transmission Wire Container Elements */
         .fw-news-wire-row { 
             border: 2px solid #0F172A; 
             padding: 14px; 
-            background-color: #FFFFFF; 
+            background-color: #FFFFFF !important; 
             margin-bottom: 10px; 
             border-left: 6px solid #0F172A; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        
-        /* High Contrast Hard-Forced Date Labels */
         .fw-wire-date {
             color: #0F172A !important;
             font-size: 11px !important;
@@ -110,8 +117,6 @@ st.markdown("""
             font-weight: 800 !important;
             display: inline-block !important;
         }
-        
-        /* Interactive Link Styling */
         .fw-wire-link {
             color: #0284C7 !important;
             font-size: 15px !important;
@@ -122,19 +127,31 @@ st.markdown("""
             color: #0F172A !important;
         }
         
-        .fw-section-header { font-size: 14px; font-weight: 900; color: #0F172A !important; text-transform: uppercase; margin-bottom: 14px; border-bottom: 3px solid #0F172A; padding-bottom: 4px; letter-spacing: 0.5px; }
+        .fw-section-header { 
+            font-size: 14px; 
+            font-weight: 900; 
+            color: #0F172A !important; 
+            text-transform: uppercase; 
+            margin-bottom: 14px; 
+            border-bottom: 3px solid #0F172A; 
+            padding-bottom: 4px; 
+        }
         
-        /* System State Colors */
+        /* Global State System Colors */
         .state-pos { color: #16A34A !important; font-weight: 800; }
         .state-neg { color: #DC2626 !important; font-weight: 800; }
         .state-neu { color: #475569 !important; font-weight: 700; }
 
-        /* Forced Contrast styling for native elements inside expanders */
-        .stExpander {
+        /* Expander Frame Container Forced Overrides */
+        .stExpander, div[data-testid="stExpander"] {
             background-color: #FFFFFF !important;
             border: 2px solid #0F172A !important;
         }
-        .stExpander p {
+        div[data-testid="stExpander"] details summary {
+            background-color: #FFFFFF !important;
+            color: #0F172A !important;
+        }
+        div[data-testid="stExpander"] div[data-testid="stMarkdownContainer"] p {
             color: #0F172A !important;
         }
     </style>
@@ -207,19 +224,19 @@ try:
     variance_persistence = alpha_coefficient + beta_coefficient
 
     # ----------------------------------------------------
-    # 3. High-Contrast Summary KPI Cards
+    # 3. Summary KPI Block Metrics Cards
     # ----------------------------------------------------
     st.markdown("""
     <div style="display: flex; gap: 15px; margin-bottom: 25px;">
-        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #0F172A; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #0F172A;">
             <div style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">System Volatility Status</div>
             <div style="font-size: 22px; font-weight: 900; color: #0F172A; margin-top: 4px;">ELEVATED RISK MATRIX</div>
         </div>
-        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #DC2626; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #DC2626;">
             <div style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Value at Risk (VaR Threshold)</div>
             <div style="font-size: 22px; font-weight: 900; color: #DC2626; margin-top: 4px;">{var_val:.2f}%</div>
         </div>
-        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #16A34A; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #16A34A;">
             <div style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Variance Model Persistence</div>
             <div style="font-size: 22px; font-weight: 900; color: #16A34A; margin-top: 4px;">{persist_val:.3f}</div>
         </div>
@@ -240,7 +257,7 @@ try:
     )
 
     # ----------------------------------------------------
-    # 5. Structural Operational Data Grid
+    # 5. Structural Operational Data Grid Table
     # ----------------------------------------------------
     direction_class = "state-pos" if df['Log_Returns'].iloc[-1] >= 0 else "state-neg"
     
@@ -269,7 +286,7 @@ try:
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 6. Pure High-Contrast Plotly & Macro Zoom Interface
+    # 6. High-Contrast Plotly Charts & Zoom Controls
     # ----------------------------------------------------
     visual_grid = make_subplots(
         rows=1, cols=2, 
@@ -280,7 +297,7 @@ try:
     visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0F172A', width=2)), row=1, col=1)
     visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#B91C1C', width=2, dash='dash')), row=1, col=2)
     
-    # Range Selectors & Zoom Macros Integrated Directly onto Chart
+    # Range Selectors & Zoom Macros
     visual_grid.update_xaxes(
         rangeselector=dict(
             buttons=list([
@@ -296,7 +313,6 @@ try:
         row=1, col=1
     )
 
-    # Absolute theme override completely isolating fonts away from browser defaults
     visual_grid.update_layout(
         template="plotly_white", 
         height=320, 
@@ -307,18 +323,16 @@ try:
         font=dict(color='#0F172A', family='Arial', size=11)
     )
     
-    # Overriding X & Y Text Metrics with strict compliance
     visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11))
     visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11))
     
-    # Enforce correct styling weights directly on the subplot title text annotations
     for annotation in visual_grid['layout']['annotations']:
         annotation['font'] = dict(color='#0F172A', size=13, family='Arial')
         
     st.plotly_chart(visual_grid, use_container_width=True)
 
     # ----------------------------------------------------
-    # 7. Microclimate Table (Forcing Dark Text HTML)
+    # 7. Microclimate Dynamic Load Grid
     # ----------------------------------------------------
     st.markdown(f"<div class='fw-section-header'>Microclimate Thermodynamic Load Grid — {asset_info['hq']}</div>", unsafe_allow_html=True)
     st.markdown(f"""
@@ -347,7 +361,7 @@ try:
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 8. Live News Wire Stream (Fixed Contrast CSS Class)
+    # 8. Live News Wire Stream 
     # ----------------------------------------------------
     st.markdown("<div class='fw-section-header'>Live Market Transmission Wire</div>", unsafe_allow_html=True)
     
@@ -401,7 +415,7 @@ try:
         """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 9. Executive Explander Documentation Node
+    # 9. High-Contrast Expander Glossary Node
     # ----------------------------------------------------
     st.markdown("<br>", unsafe_allow_html=True)
     with st.expander("📖 TERMINAL METRIC PROTOCOLS & GLOSSARY MATRIX"):
