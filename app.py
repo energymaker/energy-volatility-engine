@@ -328,7 +328,9 @@ try:
         <div class="fw-news-wire-row">
             <a href="{article_url}" target="_blank" class="fw-wire-link">{headline_text}</a>
             <br>
-            <span style="color: #475569 !important; font-size: 11px; text-transform: uppercase; font-weight:800;">{publish_date} {sentiment_tag}</span>
+            <span style="color: #0F172A !important; font-size: 11px; text-transform: uppercase; font-weight: 800;">
+                DATE: {publish_date} &nbsp;&nbsp; {sentiment_tag}
+            </span>
         </div>
         """, unsafe_allow_html=True)
 
