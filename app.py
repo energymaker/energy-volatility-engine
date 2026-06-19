@@ -100,6 +100,18 @@ st.markdown("""
             border-left: 6px solid #0F172A; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
+        
+        /* Interactive Link Styling */
+        .fw-wire-link {
+            color: #0284C7 !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            text-decoration: underline !important;
+        }
+        .fw-wire-link:hover {
+            color: #0F172A !important;
+        }
+        
         .fw-section-header { font-size: 14px; font-weight: 900; color: #0F172A !important; text-transform: uppercase; margin-bottom: 14px; border-bottom: 3px solid #0F172A; padding-bottom: 4px; letter-spacing: 0.5px; }
         
         /* System State Colors */
@@ -184,28 +196,28 @@ try:
     st.markdown(f"""
     <table class="fw-matrix-table">
         <tr>
-            <td class="fw-hdr-label">Identifier Ticker</td><td><strong>{ticker}</strong></td>
-            <td class="fw-hdr-label">System Classification</td><td>{asset_info['type']}</td>
-            <td class="fw-hdr-label">Physical Grid Infrastructure</td><td>{asset_info['infrastructure']}</td>
+            <td class="fw-hdr-label">Identifier Ticker</td><td><strong style="color: #0F172A !important;">{ticker}</strong></td>
+            <td class="fw-hdr-label">System Classification</td><td style="color: #0F172A !important;">{asset_info['type']}</td>
+            <td class="fw-hdr-label">Physical Grid Infrastructure</td><td style="color: #0F172A !important;">{asset_info['infrastructure']}</td>
             <td class="fw-hdr-label">Last Valuation</td><td class="{direction_class}">${df['Close'].iloc[-1]:.2f}</td>
         </tr>
         <tr>
             <td class="fw-hdr-label">Daily Settlement Net</td><td class="{direction_class}">{df['Log_Returns'].iloc[-1]:.2f}%</td>
             <td class="fw-hdr-label">Value at Risk (VaR)</td><td class="state-neg">{var_limit:.2f}%</td>
             <td class="fw-hdr-label">Expected Shortfall</td><td class="state-neg">{expected_shortfall:.2f}%</td>
-            <td class="fw-hdr-label">Variance Persistence</td><td>{variance_persistence:.3f}</td>
+            <td class="fw-hdr-label">Variance Persistence</td><td style="color: #0F172A !important;">{variance_persistence:.3f}</td>
         </tr>
         <tr>
-            <td class="fw-hdr-label">Model Alpha Factor</td><td>{alpha_coefficient:.4f}</td>
-            <td class="fw-hdr-label">Model Beta Factor</td><td>{beta_coefficient:.4f}</td>
-            <td class="fw-hdr-label">Analysis Target Horizon</td><td>{projection_timeline} Business Days</td>
-            <td class="fw-hdr-label">Operational Control Node</td><td>{asset_info['hq']}</td>
+            <td class="fw-hdr-label">Model Alpha Factor</td><td style="color: #0F172A !important;">{alpha_coefficient:.4f}</td>
+            <td class="fw-hdr-label">Model Beta Factor</td><td style="color: #0F172A !important;">{beta_coefficient:.4f}</td>
+            <td class="fw-hdr-label">Analysis Target Horizon</td><td style="color: #0F172A !important;">{projection_timeline} Business Days</td>
+            <td class="fw-hdr-label">Operational Control Node</td><td style="color: #0F172A !important;">{asset_info['hq']}</td>
         </tr>
     </table>
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 4. Explicit Contrast Plotly Rendering (Using Schema Rules)
+    # 4. Pure High-Contrast Plotly Implementation
     # ----------------------------------------------------
     visual_grid = make_subplots(
         rows=1, cols=2, 
@@ -216,18 +228,18 @@ try:
     visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0F172A', width=2)), row=1, col=1)
     visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#B91C1C', width=2, dash='dash')), row=1, col=2)
     
-    # Global Font Rule Overrides using the exact valid property keys requested
+    # Absolute theme override completely isolating fonts away from browser defaults
     visual_grid.update_layout(
         template="plotly_white", 
         height=280, 
         showlegend=False, 
-        margin=dict(l=50, r=20, t=40, b=40),
+        margin=dict(l=50, r=20, t=50, b=50),
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='#FFFFFF',
         font=dict(color='#0F172A', family='Arial', size=11)
     )
     
-    # Overriding X & Y Text Metrics with strict compliance (weight parameter instead of bold)
+    # Overriding X & Y Text Metrics with strict compliance (weight parameters instead of bold)
     visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11, weight='bold'))
     visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11, weight='bold'))
     
@@ -244,30 +256,30 @@ try:
     st.markdown(f"""
     <table class="fw-matrix-table">
         <tr class="fw-hdr-label">
-            <td>Meteorological Node Metrics</td>
-            <td>Operational Value Reading</td>
-            <td>Grid Load Delivery Implication</td>
+            <td style="color: #0F172A !important; font-weight: 800;">Meteorological Node Metrics</td>
+            <td style="color: #0F172A !important; font-weight: 800;">Operational Value Reading</td>
+            <td style="color: #0F172A !important; font-weight: 800;">Grid Load Delivery Implication</td>
         </tr>
         <tr>
-            <td>Target Node Location Grid Point</td>
-            <td><strong>{asset_info['hq']}</strong></td>
-            <td>Isolates spatial delivery constraints across regional junctions.</td>
+            <td style="color: #0F172A !important;">Target Node Location Grid Point</td>
+            <td style="color: #0F172A !important;"><strong>{asset_info['hq']}</strong></td>
+            <td style="color: #0F172A !important;">Isolates spatial delivery constraints across regional junctions.</td>
         </tr>
         <tr>
-            <td>Regional Degree Day Base Shift</td>
-            <td>Baseline Normalized (+1.2% Structural Shift)</td>
-            <td>Forecasts base consumer volume distribution trends.</td>
+            <td style="color: #0F172A !important;">Regional Degree Day Base Shift</td>
+            <td style="color: #0F172A !important;">Baseline Normalized (+1.2% Structural Shift)</td>
+            <td style="color: #0F172A !important;">Forecasts base consumer volume distribution trends.</td>
         </tr>
         <tr>
-            <td>14-Day Temperature Deviation Model</td>
-            <td><span class="state-pos">+2.4°F vs Historic Season Vector</span></td>
-            <td>Triggers prompt-month storage draws and dispatch changes.</td>
+            <td style="color: #0F172A !important;">14-Day Temperature Deviation Model</td>
+            <td style="color: #0F172A !important;"><span class="state-pos">+2.4°F vs Historic Season Vector</span></td>
+            <td style="color: #0F172A !important;">Triggers prompt-month storage draws and dispatch changes.</td>
         </tr>
     </table>
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 6. Live News Infrastructure Wire (Clean Text Output)
+    # 6. Live News Wire Stream (Functional Hyperlinks + Fixed Contrast)
     # ----------------------------------------------------
     st.markdown("<div class='fw-section-header'>Live Market Transmission Wire</div>", unsafe_allow_html=True)
     
@@ -288,16 +300,18 @@ try:
 
     if not headlines_extracted:
         class BackupArticle:
-            def __init__(self, title, published):
+            def __init__(self, title, link, published):
                 self.title = title
+                self.link = link
                 self.published = published
         headlines_extracted = [
-            BackupArticle("Nuclear Generation Grid Interconnect Footprint Expands", "System Session Feed Log"),
-            BackupArticle("Photovoltaic Transmission Matrix Logs Peak Seasonal Performance Profiles", "System Session Feed Log")
+            BackupArticle("Nuclear Generation Grid Interconnect Footprint Expands", "https://finance.yahoo.com", "System Session Feed Log"),
+            BackupArticle("Photovoltaic Transmission Matrix Logs Peak Seasonal Performance Profiles", "https://www.cnbc.com", "System Session Feed Log")
         ]
 
     for item in headlines_extracted:
         headline_text = item.title
+        article_url = item.link if hasattr(item, 'link') else 'https://finance.yahoo.com'
         publish_date = item.published if hasattr(item, 'published') else 'Live Entry Stream'
         
         nlp_processing_blob = TextBlob(headline_text)
@@ -312,9 +326,9 @@ try:
             
         st.markdown(f"""
         <div class="fw-news-wire-row">
-            <span style="color:#0F172A !important; font-size:14px; font-weight:700;">{headline_text}</span> 
+            <a href="{article_url}" target="_blank" class="fw-wire-link">{headline_text}</a>
             <br>
-            <span style="color: #475569; font-size: 11px; text-transform: uppercase; font-weight:800;">{publish_date} {sentiment_tag}</span>
+            <span style="color: #475569 !important; font-size: 11px; text-transform: uppercase; font-weight:800;">{publish_date} {sentiment_tag}</span>
         </div>
         """, unsafe_allow_html=True)
 
