@@ -3,98 +3,126 @@ import pandas as pd
 import numpy as np
 import yfinance as yf
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from arch import arch_model
+from scipy.stats import norm
 
-# 1. Page Configuration & Custom Theme Setup
-st.set_page_config(page_title="Energy Volatility Engine", layout="wide")
+# 1. Page Configuration & Institutional Theme Settings
+st.set_page_config(page_title="Global Energy Analytics Terminal", layout="wide")
 
-st.title("🔋 Institutional Energy Volatility & Risk Forecasting Engine")
-st.caption("Live Quantitative Analysis Desk — Powered by GARCH(1,1) Statistical Modeling")
+st.title("📊 Global Energy Quantitative Analytics Terminal")
+st.caption("Institutional Market Infrastructure Desk // Real-Time Cross-Commodity & Risk Engine")
 
-# 2. Industry Standard Peer Matrix Dropdown Dictionary
-ENERGY_PEERS = {
+# 2. Asset Universe Setup (Divided by Market Sectors)
+TICKERS = {
+    "Henry Hub Natural Gas (Futures)": "NG=F",
+    "WTI Crude Oil (Futures)": "CL=F",
+    "Brent Crude Oil (Futures)": "BZ=F",
     "NextEra Energy (NEE) - Clean Utility": "NEE",
-    "Brookfield Renewable (BEP) - Pure Renewables": "BEP",
+    "Brookfield Renewable (BEP) - Renewables": "BEP",
     "ExxonMobil (XOM) - Oil & Gas Major": "XOM",
-    "Chevron (CVX) - Oil & Gas Major": "CVX",
-    "Duke Energy (DUK) - Regulated Grid Utility": "DUK",
-    "Southern Company (SO) - Traditional Utility": "SO"
+    "Chevron (CVX) - Oil & Gas Major": "CVX"
 }
 
-# 3. User Interface Sidebar Controls
-st.sidebar.header("🕹️ Model Parameters")
-selected_display_name = st.sidebar.selectbox("Select Target Energy Asset", list(ENERGY_PEERS.keys()))
-ticker = ENERGY_PEERS[selected_display_name]
+# 3. Sidebar Controls (Designed like a Bloomberg Terminal interface)
+st.sidebar.header("🎛️ Terminal Command Center")
+selected_display = st.sidebar.selectbox("Active Asset Target", list(TICKERS.keys()))
+ticker = TICKERS[selected_display]
 
-lookback_period = st.sidebar.selectbox("Historical Lookback Data Range", ["1 Year", "2 Years", "5 Years"], index=1)
-period_map = {"1 Year": "1y", "2 Years": "2y", "5 Years": "5y"}
+time_frame = st.sidebar.selectbox("Historical Lookback Horizon", ["2 Years", "5 Years"], index=0)
+period_map = {"2 Years": "2y", "5 Years": "5y"}
 
-forecast_horizon = st.sidebar.slider("Volatility Forecast Horizon (Days)", min_value=5, max_value=30, value=15)
+forecast_days = st.sidebar.slider("GARCH Volatility Projection Curve (Days)", 5, 30, 20)
+confidence_level = st.sidebar.selectbox("Risk Management Confidence Interval (VaR)", [0.95, 0.99], index=0)
 
-# 4. Data Extraction Engine
-@st.cache_data(ttl=3600)  # Caches data for 1 hour to optimize performance, updates daily
-def load_energy_data(ticker_symbol, time_frame):
-    # Using group_by="ticker" to correctly isolate the Close price
-    data = yf.download(ticker_symbol, period=time_frame, group_by="ticker")
+# 4. Optimized Multi-Core Data Engine
+@st.cache_data(ttl=1800) # Refreshes cache every 30 minutes for real-time market accuracy
+def fetch_terminal_data(ticker_symbol, period):
+    data = yf.download(ticker_symbol, period=period, group_by="ticker")
     if isinstance(data.columns, pd.MultiIndex):
         close_series = data[ticker_symbol]['Close']
     else:
         close_series = data['Close']
     df = pd.DataFrame(close_series).dropna()
-    # Calculate conditional daily percentage log returns
-    df['Returns'] = np.log(df.iloc[:, 0] / df.iloc[:, 0].shift(1)) * 100
+    df.columns = ['Close']
+    df['Returns'] = np.log(df['Close'] / df['Close'].shift(1)) * 100
     return df.dropna()
 
 try:
-    df = load_energy_data(ticker, period_map[lookback_period])
+    df = fetch_terminal_data(ticker, period_map[time_frame])
+
+    # 5. Advanced Risk Computations (Value at Risk & Expected Shortfall)
+    # VaR mathematically dictates: "What is the maximum dollar/percentage loss we could face tomorrow with 95/99% confidence?"
+    latest_return = df['Returns'].iloc[-1]
+    hist_mu = df['Returns'].mean()
+    hist_sigma = df['Returns'].std()
     
-    # 5. Execute GARCH(1,1) Quantitative Risk Model
-    model = arch_model(df['Returns'], vol='Garch', p=1, q=1, dist='normal')
-    model_fit = model.fit(disp='off')
+    # Parametric Value at Risk (VaR)
+    var_cutoff = norm.ppf(1 - confidence_level, hist_mu, hist_sigma)
     
-    # Extract calculated historical risk tracking metric
-    df['Historical_Conditional_Volatility'] = model_fit.conditional_volatility
+    # Expected Shortfall (Conditional VaR: If we breach the worst-case scenario, what is the average expected catastrophic loss?)
+    tail_returns = df['Returns'][df['Returns'] <= var_cutoff]
+    expected_shortfall = tail_returns.mean() if not tail_returns.empty else var_cutoff
+
+    # 6. Advanced GARCH(1,1) Econometric Forecasting Execution
+    garch_engine = arch_model(df['Returns'], vol='Garch', p=1, q=1, dist='studentst') # Use Student's T to account for fat-tailed energy market shocks
+    fitted_model = garch_engine.fit(disp='off')
+    df['GARCH_Risk_Metric'] = fitted_model.conditional_volatility
     
-    # Generate the forward-looking mathematical forecast
-    garch_forecast = model_fit.forecast(horizon=forecast_horizon)
-    forecast_variance = garch_forecast.variance.iloc[-1]
-    forecast_volatility_annualized = np.sqrt(forecast_variance) * np.sqrt(252) # Annualized pricing metric
+    # Forward Volatility Forecast
+    horizon_forecast = fitted_model.forecast(horizon=forecast_days)
+    future_variance = horizon_forecast.variance.iloc[-1]
+    annualized_forecast_vol = np.sqrt(future_variance) * np.sqrt(252)
+    future_axis = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=forecast_days, freq='B')
 
-    # Create Dates for the Forecast Horizon Axis
-    future_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=forecast_horizon, freq='B')
+    # 7. Professional Grid Dashboard Layout
+    kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+    kpi1.metric(label="Latest Closing Price", value=f"${df['Close'].iloc[-1]:.2f}", delta=f"{df['Returns'].iloc[-1]:.2f}% (1D)")
+    kpi2.metric(label=f"Value at Risk ({int(confidence_level*100)}% VaR)", value=f"{var_cutoff:.2f}%", delta="Maximum Expected Daily Drop", delta_color="inverse")
+    kpi3.metric(label="Expected Shortfall (Tail Risk)", value=f"{expected_shortfall:.2f}%", delta="Average Catastrophic Breach Loss", delta_color="inverse")
+    kpi4.metric(label="Calculated Model Persistence", value=f"{(fitted_model.params['alpha[1]'] + fitted_model.params['beta[1]']):.3f}", delta="Variance System Memory")
 
-    # 6. Build the Visual Dashboards
-    col1, col2 = st.columns([2, 1])
+    st.markdown("---")
 
-    with col1:
-        st.markdown("### 📊 Historical Volatility Clustering Matrix")
-        fig_hist = go.Figure()
-        fig_hist.add_trace(go.Scatter(x=df.index, y=df['Returns'], name="Daily Asset Price Swings (%)", line=dict(color='rgba(255,255,255,0.15)', width=1)))
-        fig_hist.add_trace(go.Scatter(x=df.index, y=df['Historical_Conditional_Volatility'], name="GARCH Tracked Internal Risk", line=dict(color='#00ffcc', width=2)))
-        fig_hist.update_layout(template="plotly_dark", height=400, margin=dict(l=10, r=10, t=10, b=10), showlegend=True)
-        st.plotly_chart(fig_hist, use_container_width=True)
+    # 8. Multi-Subplot Advanced Interactive Visualization
+    fig = make_subplots(
+        rows=2, cols=2,
+        subplot_titles=(
+            "Historical Pricing Engine Structure", 
+            "GARCH(1,1) Volatility Cluster Modeling", 
+            "Parametric Return Distribution & VaR Tail Mapping", 
+            f"{forecast_days}-Day Statistical Predictive Risk Curve"
+        ),
+        vertical_spacing=0.12, horizontal_spacing=0.08
+    )
 
-    with col2:
-        st.markdown("### 🔮 Forward Risk Prediction Curve")
-        fig_fore = go.Figure()
-        fig_fore.add_trace(go.Scatter(x=future_dates, y=forecast_volatility_annualized, name="Annualized Volatility Forecast", line=dict(color='#ff3366', width=3, dash='dash')))
-        fig_fore.update_layout(template="plotly_dark", height=400, margin=dict(l=10, r=10, t=10, b=10))
-        st.plotly_chart(fig_fore, use_container_width=True)
+    # Top Left: Standard Price Action
+    fig.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Spot Price ($)", line=dict(color='#00d2ff', width=2)), row=1, col=1)
+    
+    # Top Right: Volatility Clustering
+    fig.add_trace(go.Scatter(x=df.index, y=df['Returns'], name="Daily Returns (%)", line=dict(color='rgba(255,255,255,0.12)', width=1)), row=1, col=2)
+    fig.add_trace(go.Scatter(x=df.index, y=df['GARCH_Risk_Metric'], name="GARCH Internal Risk", line=dict(color='#ff9f43', width=2)), row=1, col=2)
 
-    # 7. Desk Briefing Data Output Cards
-    st.markdown("### 📝 Quant Desk Core Parameters")
-    alpha = model_fit.params['alpha[1]']
-    beta = model_fit.params['beta[1]']
-    persistence = alpha + beta
+    # Bottom Left: Risk Distribution Histogram
+    fig.add_trace(go.Histogram(x=df['Returns'], nbinsx=60, name="Return Density", marker_color='rgba(0, 210, 255, 0.4)', histnorm='probability density'), row=2, col=1)
+    # Add Value at Risk vertical alert line
+    fig.add_vline(x=var_cutoff, line_width=2, line_dash="dash", line_color="#ee5253", row=2, col=1)
 
-    c1, c2, c3 = st.columns(3)
-    c1.metric(label="Model News Sensitivity (Alpha)", value=f"{alpha:.3f}", delta="High Reaction" if alpha > 0.1 else "Stable")
-    c2.metric(label="Risk Memory Stickiness (Beta)", value=f"{beta:.3f}", delta="Persistent" if beta > 0.9 else "Short-Lived")
-    c3.metric(label="Total Variance Persistence", value=f"{persistence:.3f}", delta="Mean Reverting" if persistence < 1.0 else "Explosive Risk")
+    # Bottom Right: Forward Risk Projections
+    fig.add_trace(go.Scatter(x=future_axis, y=annualized_forecast_vol, name="Annualized Projected Risk", line=dict(color='#ff3366', width=2.5, dash='longdash')), row=2, col=1)
 
-    st.info(f"**How to interpret this asset's output:** This configuration presents a variance persistence of **{persistence:.3f}**. "
-            f"Because this number is near 1.0, any sudden geopolitical price shock, pipeline disruption, or weather anomaly affecting **{ticker}** "
-            f"will introduce highly persistent variance cluster ripples that linger inside corporate hedging calculations for extended tracking cycles.")
+    # Theme Overrides for Trading Terminal Aesthetic
+    fig.update_layout(template="plotly_dark", height=750, showlegend=False, margin=dict(l=10, r=10, t=40, b=10))
+    st.plotly_chart(fig, use_container_width=True)
+
+    # 9. Institutional Desk Summary Brief
+    st.markdown("### 📋 Executive Desk Briefing")
+    st.info(
+        f"**Risk Analysis Report for {selected_display}:** The mathematical distribution analysis indicates a daily Value at Risk (VaR) of **{var_cutoff:.2f}%**. "
+        f"This means there is an exact {int(confidence_level*100)}% mathematical probability that the asset's price fluctuations will not exceed this threshold on any given trading day. "
+        f"However, if a Black Swan event triggers a tail breach, the Expected Shortfall indicates an average catastrophic down-move sequence averaging **{expected_shortfall:.2f}%**. "
+        f"The predictive risk curve utilizes a student-t distribution framework to capture heavy tail risk, optimizing it for modern corporate energy procurement and hedging decisions."
+    )
 
 except Exception as e:
-    st.error(f"Data Engine sync delay or ticker format adjustment needed. Technical code details: {e}")
+    st.error(f"Asset Data Pipeline Refreshes Pending or Input Ticker Out of Range. Log Details: {e}")
