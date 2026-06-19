@@ -14,31 +14,31 @@ from textblob import TextBlob
 # ----------------------------------------------------
 st.set_page_config(page_title="GLOBAL ENERGY MATRIX TERMINAL", layout="wide")
 
-# High-contrast, clean architecture overriding all core select boxes safely
+# High-contrast stylesheet injection forcing dark text on all native elements
 st.markdown("""
     <style>
-        /* Base Canvas - High Contrast Light Isometric Emulation */
-        .reportview-container { background-color: #F8FAFC !important; }
+        /* Base Canvas - Forced Light Background with Subtle Geometric Accents */
+        .reportview-container { background-color: #FAFAFA !important; }
         .stApp { 
             background-color: #FAFAFA !important;
             background-image: 
-                linear-gradient(30deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
-                linear-gradient(150deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
-                linear-gradient(300deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
-                linear-gradient(210deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
-                linear-gradient(30deg, #E2E8F0 38%, transparent 38.5%, transparent 61%, #E2E8F0 61.5%, #E2E8F0),
-                linear-gradient(150deg, #E2E8F0 38%, transparent 38.5%, transparent 61%, #E2E8F0 61.5%, #E2E8F0);
-            background-size: 50px 86px;
-            background-position: 0 0, 0 0, 25px 43px, 25px 43px, 0 0, 25px 43px;
+                linear-gradient(30deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
+                linear-gradient(150deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
+                linear-gradient(300deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
+                linear-gradient(210deg, #F1F5F9 12%, transparent 12.5%, transparent 87%, #F1F5F9 87.5%, #F1F5F9),
+                linear-gradient(30deg, #F1F5F9 38%, transparent 38.5%, transparent 61%, #F1F5F9 61.5%, #F1F5F9),
+                linear-gradient(150deg, #F1F5F9 38%, transparent 38.5%, transparent 61%, #F1F5F9 61.5%, #F1F5F9);
+            background-size: 40px 70px;
+            background-position: 0 0, 0 0, 20px 35px, 20px 35px, 0 0, 20px 35px;
         }
         
         /* Corporate Rigid Block Header Layout */
         .fw-terminal-header {
             background-color: #FFFFFF;
-            border-top: 4px solid #0F172A;
-            border-bottom: 4px solid #0F172A;
-            border-left: 1px solid #0F172A;
-            border-right: 1px solid #0F172A;
+            border-top: 5px solid #0F172A;
+            border-bottom: 5px solid #0F172A;
+            border-left: 2px solid #0F172A;
+            border-right: 2px solid #0F172A;
             padding: 24px;
             margin-bottom: 30px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -47,7 +47,7 @@ st.markdown("""
             color: #0F172A !important;
             font-family: 'Helvetica Neue', Arial, sans-serif !important;
             font-size: 26px !important;
-            font-weight: 800 !important;
+            font-weight: 900 !important;
             letter-spacing: -0.5px !important;
             text-transform: uppercase !important;
             margin: 0 !important;
@@ -62,7 +62,7 @@ st.markdown("""
             margin-top: 6px !important;
         }
 
-        /* Safe Widget Target Containment preventing text blending or sizing bugs */
+        /* Sidebar Container Styling Overrides */
         div[data-testid="stSidebar"] { 
             background-color: #FFFFFF !important; 
             border-right: 2px solid #0F172A !important; 
@@ -70,40 +70,46 @@ st.markdown("""
         div[data-testid="stSidebar"] label p {
             color: #0F172A !important;
             font-weight: 700 !important;
-            font-size: 13px !important;
-            text-transform: uppercase;
+            font-size: 12px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px;
         }
         
-        /* Enforce high-contrast dark text inside Select Box options dynamically */
-        div[data-baseweb="select"] * {
+        /* Dropdown Options Absolute Contrast Fixes */
+        div[data-baseweb="select"] > div {
+            background-color: #FFFFFF !important;
             color: #0F172A !important;
-            font-weight: 500 !important;
+            border: 2px solid #0F172A !important;
+        }
+        div[data-baseweb="popover"] *, ul[data-baseweb="menu"] * {
+            color: #0F172A !important;
+            background-color: #FFFFFF !important;
         }
         
         /* Core Data Grid Matrix */
         .fw-matrix-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 25px; border: 2px solid #0F172A; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-        .fw-matrix-table td { border: 1px solid #0F172A; padding: 12px 16px; background-color: #FFFFFF; color: #0F172A !important; font-weight: 500; }
-        .fw-hdr-label { background-color: #F1F5F9 !important; color: #0F172A !important; font-weight: 700 !important; text-transform: uppercase; width: 18%; }
+        .fw-matrix-table td { border: 1px solid #0F172A; padding: 12px 16px; background-color: #FFFFFF; color: #0F172A !important; font-weight: 600; }
+        .fw-hdr-label { background-color: #F1F5F9 !important; color: #0F172A !important; font-weight: 800 !important; text-transform: uppercase; width: 18%; }
         
         /* Infrastructure Wire Rows */
         .fw-news-wire-row { 
-            border: 1px solid #0F172A; 
+            border: 2px solid #0F172A; 
             padding: 14px; 
             background-color: #FFFFFF; 
             margin-bottom: 10px; 
             border-left: 6px solid #0F172A; 
-            color: #0F172A !important;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
-        .fw-section-header { font-size: 14px; font-weight: 800; color: #0F172A !important; text-transform: uppercase; margin-bottom: 14px; border-bottom: 3px solid #0F172A; padding-bottom: 4px; letter-spacing: 0.5px; }
+        .fw-section-header { font-size: 14px; font-weight: 900; color: #0F172A !important; text-transform: uppercase; margin-bottom: 14px; border-bottom: 3px solid #0F172A; padding-bottom: 4px; letter-spacing: 0.5px; }
         
-        /* Status Elements */
-        .state-pos { color: #15803D !important; font-weight: 700; }
-        .state-neg { color: #B91C1C !important; font-weight: 700; }
+        /* System State Colors */
+        .state-pos { color: #16A34A !important; font-weight: 800; }
+        .state-neg { color: #DC2626 !important; font-weight: 800; }
+        .state-neu { color: #475569 !important; font-weight: 700; }
     </style>
 """, unsafe_allow_html=True)
 
-# Main Corporate Header Block
+# Main Structural Header Block
 st.markdown("""
     <div class="fw-terminal-header">
         <h1 class="fw-terminal-title">ENERGY INFRASTRUCTURE & DISPATCH REGULATORY TERMINAL</h1>
@@ -134,7 +140,7 @@ volatility_model_type = st.sidebar.selectbox("Statistical Matrix Mode (GARCH)", 
 confidence_interval = st.sidebar.selectbox("Value at Risk Threshold (VaR)", [0.95, 0.99], index=0)
 projection_timeline = st.sidebar.slider("Forecast Lookahead Window (Days)", 5, 30, 15)
 
-# Data Acquisition Engine
+# Data Ingestion Engine
 @st.cache_data(ttl=900)
 def pull_market_data(ticker_symbol, period_string):
     raw_data = yf.download(ticker_symbol, period=period_string, group_by="ticker")
@@ -198,30 +204,65 @@ try:
     </table>
     """, unsafe_allow_html=True)
 
-    # High-Contrast Pure Line Charts
-    visual_grid = make_subplots(rows=1, cols=2, subplot_titles=("Historical Asset Pricing Series", "Statistical Volatility Horizon Map"), horizontal_spacing=0.06)
+    # ----------------------------------------------------
+    # 4. Explicit Contrast Plotly Rendering 
+    # ----------------------------------------------------
+    visual_grid = make_subplots(
+        rows=1, cols=2, 
+        subplot_titles=("Historical Asset Pricing Series", "Statistical Volatility Horizon Map"), 
+        horizontal_spacing=0.06
+    )
+    
     visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0F172A', width=2)), row=1, col=1)
     visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#B91C1C', width=2, dash='dash')), row=1, col=2)
     
+    # Force pure black font labels on the graph axes to guarantee readability
     visual_grid.update_layout(
-        template="plotly_white", height=280, showlegend=False, margin=dict(l=0, r=0, t=25, b=0),
-        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='#FFFFFF'
+        template="plotly_white", 
+        height=280, 
+        showlegend=False, 
+        margin=dict(l=40, r=20, t=40, b=40),
+        paper_bgcolor='rgba(0,0,0,0)', 
+        plot_bgcolor='#FFFFFF',
+        font=dict(color='#0F172A', family='Arial')
     )
-    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A')
-    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A')
+    
+    # Overriding X & Y text labels explicitly
+    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=10, bold=True))
+    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=10, bold=True))
     st.plotly_chart(visual_grid, use_container_width=True)
 
-    # Microclimate Thermodynamic Load Section
+    # ----------------------------------------------------
+    # 5. Microclimate Table Overhaul (Forcing Dark Text HTML)
+    # ----------------------------------------------------
     st.markdown(f"<div class='fw-section-header'>Microclimate Thermodynamic Load Grid — {asset_info['hq']}</div>", unsafe_allow_html=True)
-    climatological_matrix = pd.DataFrame({
-        'Meteorological Node Metrics': ['Target Node Location Grid Point', 'Regional Degree Day Base Shift', '14-Day Temperature Deviation Model'],
-        'Operational Value Reading': [asset_info['hq'], 'Baseline Normalized (+1.2% Structural Shift)', '+2.4°F vs Historic Season Vector'],
-        'Grid Load Delivery Implication': ['Isolates spatial delivery constraints', 'Forecasts baseline consumer volume demand profiles', 'Prompt-month storage draw trigger vector']
-    })
-    st.table(climatological_matrix)
+    st.markdown(f"""
+    <table class="fw-matrix-table">
+        <tr class="fw-hdr-label">
+            <td>Meteorological Node Metrics</td>
+            <td>Operational Value Reading</td>
+            <td>Grid Load Delivery Implication</td>
+        </tr>
+        <tr>
+            <td>Target Node Location Grid Point</td>
+            <td><strong>{asset_info['hq']}</strong></td>
+            <td>Isolates spatial delivery constraints across regional junctions.</td>
+        </tr>
+        <tr>
+            <td>Regional Degree Day Base Shift</td>
+            <td>Baseline Normalized (+1.2% Structural Shift)</td>
+            <td>Forecasts base consumer volume distribution trends.</td>
+        </tr>
+        <tr>
+            <td>14-Day Temperature Deviation Model</td>
+            <td><span class="state-pos">+2.4°F vs Historic Season Vector</span></td>
+            <td>Triggers prompt-month storage draws and dispatch changes.</td>
+        </tr>
+    </table>
+    """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 4. Pure Professional News Wire Stream
+    # 6. Live News Infrastructure Wire (Removed Bracketed Text)
     # ----------------------------------------------------
     st.markdown("<div class='fw-section-header'>Live Market Transmission Wire</div>", unsafe_allow_html=True)
     
@@ -262,13 +303,13 @@ try:
         elif score > 0.02:
             sentiment_tag = '<span class="state-pos">// POSITIVE EFFICIENCY PROFILE</span>'
         else:
-            sentiment_tag = '<span style="color:#475569; font-weight:700;">// VOLATILITY STABLE PROFILE</span>'
+            sentiment_tag = '<span class="state-neu">// VOLATILITY STABLE PROFILE</span>'
             
         st.markdown(f"""
         <div class="fw-news-wire-row">
-            <strong style="color:#0F172A !important; font-size:14px;">{headline_text}</strong> 
+            <span style="color:#0F172A !important; font-size:14px; font-weight:700;">{headline_text}</span> 
             <br>
-            <span style="color: #475569; font-size: 11px; text-transform: uppercase; font-weight:700;">{publish_date} {sentiment_tag}</span>
+            <span style="color: #475569; font-size: 11px; text-transform: uppercase; font-weight:800;">{publish_date} {sentiment_tag}</span>
         </div>
         """, unsafe_allow_html=True)
 
