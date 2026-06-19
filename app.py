@@ -10,12 +10,18 @@ import feedparser
 from textblob import TextBlob
 
 # ----------------------------------------------------
-# 1. High-Contrast Light Terminal Stylesheet Injection
+# 1. Premium High-Contrast Light Stylesheet Injection
 # ----------------------------------------------------
 st.set_page_config(page_title="GLOBAL ENERGY MATRIX TERMINAL", layout="wide")
 
 st.markdown("""
     <style>
+        /* Force strict layout alignment and eliminate unwanted margins */
+        .block-container {
+            padding-top: 1.5rem !important;
+            padding-bottom: 2rem !important;
+        }
+
         /* Force explicit white background and dark text on the main canvas */
         .reportview-container, .stApp { 
             background-color: #FFFFFF !important;
@@ -23,13 +29,16 @@ st.markdown("""
             color: #0F172A !important;
         }
         
-        /* Force global text elements inside markdown to be readable black */
+        /* Force global text elements to be readable bold black */
         p, span, label, li, h1, h2, h3, h4, h5, h6 {
             color: #0F172A !important;
         }
 
-        /* Corporate Header Styling */
-        .fw-terminal-header {
+        /* Corporate Header Styling with Integrated Flex Logo Layout */
+        .fw-header-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
             background-color: #FFFFFF;
             border-top: 5px solid #0F172A;
             border-bottom: 5px solid #0F172A;
@@ -45,6 +54,7 @@ st.markdown("""
             font-weight: 900 !important;
             text-transform: uppercase !important;
             margin: 0 !important;
+            line-height: 1.1 !important;
         }
         .fw-terminal-subtitle {
             color: #475569 !important;
@@ -56,27 +66,32 @@ st.markdown("""
             margin-top: 6px !important;
         }
 
-        /* Sidebar Inputs Container - Crisp White Contrast */
-        div[data-testid="stSidebar"] { 
+        /* Sidebar Inputs Container Override - Absolute White Background */
+        div[data-testid="stSidebar"], section[data-testid="stSidebar"] { 
             background-color: #FFFFFF !important; 
             border-right: 2px solid #0F172A !important; 
         }
-        div[data-testid="stSidebar"] label p {
+        div[data-testid="stSidebar"] *, section[data-testid="stSidebar"] * {
             color: #0F172A !important;
-            font-weight: 700 !important;
+        }
+        div[data-testid="stSidebar"] label p {
+            font-weight: 800 !important;
             font-size: 12px !important;
             text-transform: uppercase !important;
+            letter-spacing: 0.5px;
         }
         
-        /* Dropdown/Selectbox Options Absolute Visibility Fixes */
+        /* Dropdown/Selectbox Options Strict Visibility Overrides */
         div[data-baseweb="select"] > div {
             background-color: #FFFFFF !important;
             color: #0F172A !important;
             border: 2px solid #0F172A !important;
+            font-weight: 700 !important;
         }
-        div[data-baseweb="popover"] *, ul[data-baseweb="menu"] * {
+        div[data-baseweb="popover"] *, ul[data-baseweb="menu"] *, li[role="option"] * {
             color: #0F172A !important;
             background-color: #FFFFFF !important;
+            font-weight: 700 !important;
         }
         
         /* Data Grid Tables Grid Engine */
@@ -157,11 +172,20 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Main Structural Header Block
+# Main Structural Header Block with Integrated Clean Identity Brand Vector
 st.markdown("""
-    <div class="fw-terminal-header">
-        <h1 class="fw-terminal-title">ENERGY INFRASTRUCTURE & DISPATCH REGULATORY TERMINAL</h1>
-        <div class="fw-terminal-subtitle">PRODUCTION DATA MATRICES // SYSTEM VOLATILITY HORIZONS // LIVE TRANSMISSION LOGS</div>
+    <div class="fw-header-wrapper">
+        <div style="flex-shrink: 0; display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; background-color: #0F172A;">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#FFFFFF"/>
+                <path d="M2 17L12 22L22 17" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div>
+            <h1 class="fw-terminal-title">ENERGY INFRASTRUCTURE & DISPATCH REGULATORY TERMINAL</h1>
+            <div class="fw-terminal-subtitle">PRODUCTION DATA MATRICES // SYSTEM VOLATILITY HORIZONS // LIVE TRANSMISSION LOGS</div>
+        </div>
     </div>
 """, unsafe_allow_html=True)
 
