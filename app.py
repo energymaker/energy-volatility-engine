@@ -10,44 +10,61 @@ import feedparser
 from textblob import TextBlob
 
 # ----------------------------------------------------
-# 1. Page Configuration & FreightWaves Aesthetic Injection
+# 1. Page Configuration & Full Contrast FreightWaves CSS Injection
 # ----------------------------------------------------
-st.set_page_config(page_title="GLOBAL ENERGY MATRIX & TRANSMISSION NODE TERMINAL", layout="wide")
+st.set_page_config(page_title="GLOBAL ENERGY MATRIX TERMINAL", layout="wide")
 
-# FreightWaves clean white/light grey grid system design override
+# High-contrast stylesheet injection guaranteeing deep dark text elements on light background
 st.markdown("""
     <style>
-        /* Base Page Canvas Wrapper */
-        .reportview-container { background-color: #F8FAFC; }
-        .stApp { background-color: #F8FAFC; }
-        body { color: #0F172A; font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif; }
+        /* Base Canvas - Forced High Contrast Light Theme */
+        .reportview-container { background-color: #F8FAFC !important; }
+        .stApp { background-color: #F8FAFC !important; }
         
-        /* Sidebar Styling Harmonization */
-        section[data-testid="stSidebar"] { background-color: #FFFFFF !important; border-right: 1px solid #E2E8F0; }
-        section[data-testid="stSidebar"] h3 { color: #0F172A !important; }
+        /* Isometric Background Hero Canvas Emulation */
+        .fw-hero-banner { 
+            background-color: #F1F5F9; 
+            background-image: linear-gradient(#E2E8F0 1px, transparent 1px), linear-gradient(90deg, #E2E8F0 1px, transparent 1px);
+            background-size: 20px 20px;
+            padding: 30px; 
+            border: 2px solid #0F172A; 
+            margin-bottom: 25px; 
+            border-radius: 4px;
+        }
         
-        /* FreightWaves High-Density Struct Tables */
-        .fw-matrix-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; border-radius: 4px; overflow: hidden; }
-        .fw-matrix-table td { border: 1px solid #E2E8F0; padding: 8px 12px; background-color: #FFFFFF; color: #334155; }
-        .fw-hdr-label { background-color: #F1F5F9 !important; color: #475569 !important; font-weight: 600; width: 18%; text-transform: uppercase; letter-spacing: 0.5px; }
+        /* Direct text color guarantees preventing background blend */
+        h1, h2, h3, h4, h5, h6, p, li, span, label { color: #0F172A !important; font-family: Arial, sans-serif !important; }
         
-        /* News Feed Structure */
-        .fw-news-wire-row { border-bottom: 1px solid #E2E8F0; padding: 12px 0; font-size: 13px; background-color: #FFFFFF; padding-left: 15px; margin-bottom: 4px; border-left: 3px solid #CBD5E1; }
-        .fw-asset-badge { background-color: #0284C7; color: #FFFFFF; padding: 2px 6px; font-weight: bold; border-radius: 2px; font-size: 10px; text-transform: uppercase; }
+        /* Sidebar Text Visibility Fixes */
+        section[data-testid="stSidebar"] { background-color: #FFFFFF !important; border-right: 2px solid #0F172A !important; }
+        section[data-testid="stSidebar"] div, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] p { color: #0F172A !important; font-weight: 600 !important; }
         
-        /* Clean Structural Headers */
-        .fw-section-header { font-size: 14px; font-weight: 700; color: #0F172A; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; border-bottom: 2px solid #0F172A; padding-bottom: 4px; }
+        /* Matrix Grid System Data-Dense Layout Tables */
+        .fw-matrix-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px; border: 2px solid #0F172A; }
+        .fw-matrix-table td { border: 1px solid #0F172A; padding: 10px 14px; background-color: #FFFFFF; color: #0F172A !important; font-weight: 500; }
+        .fw-hdr-label { background-color: #E2E8F0 !important; color: #0F172A !important; font-weight: 700 !important; text-transform: uppercase; width: 18%; }
         
-        /* Semantic State Colors */
-        .state-bullish { color: #16A34A; font-weight: 600; }
-        .state-bearish { color: #DC2626; font-weight: 600; }
-        .state-neutral { color: #64748B; font-weight: 500; }
+        /* News Rows */
+        .fw-news-wire-row { border: 1px solid #0F172A; padding: 12px; background-color: #FFFFFF; margin-bottom: 8px; border-left: 5px solid #0284C7; color: #0F172A !important; }
+        .fw-asset-badge { background-color: #0F172A; color: #FFFFFF !important; padding: 3px 8px; font-weight: bold; border-radius: 2px; font-size: 11px; }
+        
+        .fw-section-header { font-size: 15px; font-weight: 800; color: #0F172A !important; text-transform: uppercase; margin-bottom: 12px; border-bottom: 3px solid #0F172A; padding-bottom: 4px; }
+        
+        .state-bullish { color: #15803D !important; font-weight: 700; }
+        .state-bearish { color: #B91C1C !important; font-weight: 700; }
+        .state-neutral { color: #475569 !important; font-weight: 700; }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("### GLOBAL ENERGY MATRIX & TRANSMISSION NODE TERMINAL")
-st.markdown("<small style='color: #64748B; font-weight: 500;'>PRODUCTION CAPACITY // QUANTITATIVE MARGIN RISK ENGINE // MICROCLIMATE UTILITY NODES</small>", unsafe_allow_html=True)
-st.markdown("<div style='margin-bottom: 25px;'></div>", unsafe_allow_html=True)
+# FreightWaves-Style Header Canvas Container Section
+st.markdown("""
+    <div class="fw-hero-banner">
+        <h2 style="margin:0; font-weight:900; letter-spacing:-0.5px;">ENERGY OPERATIONS INFRASTRUCTURE BALANCING SYMPOSIUM</h2>
+        <p style="margin:5px 0 0 0; font-weight:600; text-transform:uppercase; font-size:12px; letter-spacing:1px; color:#475569;">
+            Live Processing Feed Nodes // Nuclear Grid Dispatch // Solar Inflow Capacity Models
+        </p>
+    </div>
+""", unsafe_allow_html=True)
 
 # ----------------------------------------------------
 # 2. Asset Metadata Mapping Architecture
@@ -62,20 +79,17 @@ ASSET_METADATA = {
     "Chevron (CVX)": {"ticker": "CVX", "type": "Integrated Hydrocarbon Energy Major", "hq": "San Ramon Complex, CA", "infrastructure": "Petrochemical Processing Facilities & Exploration Fields"}
 }
 
-# FreightWaves Command Input Matrix
-st.sidebar.markdown("### TERMINAL FILTERS")
-selected_display = st.sidebar.selectbox("Data Target Asset", list(ASSET_METADATA.keys()))
+st.sidebar.markdown("### TERMINAL PARAMETERS")
+selected_display = st.sidebar.selectbox("Asset Target Track", list(ASSET_METADATA.keys()))
 asset_info = ASSET_METADATA[selected_display]
 ticker = asset_info["ticker"]
 
-historical_horizon = st.sidebar.selectbox("Lookback Horizon", ["1y", "2y", "5y"], index=1)
-volatility_model_type = st.sidebar.selectbox("Variance Error Vector", ["studentst", "normal"], index=0)
-confidence_interval = st.sidebar.selectbox("Statistical Risk Filter (VaR)", [0.95, 0.99], index=0)
-projection_timeline = st.sidebar.slider("Forecast Modeling Window", 5, 30, 15)
+historical_horizon = st.sidebar.selectbox("Lookback Window", ["1y", "2y", "5y"], index=1)
+volatility_model_type = st.sidebar.selectbox("Variance Vector Distribution", ["studentst", "normal"], index=0)
+confidence_interval = st.sidebar.selectbox("Risk Filter Bound (VaR)", [0.95, 0.99], index=0)
+projection_timeline = st.sidebar.slider("Forecast Modeling Horizon", 5, 30, 15)
 
-# ----------------------------------------------------
-# 3. Optimized Financial Data Engine
-# ----------------------------------------------------
+# Data Ingestion Execution Block
 @st.cache_data(ttl=900)
 def pull_market_data(ticker_symbol, period_string):
     raw_data = yf.download(ticker_symbol, period=period_string, group_by="ticker")
@@ -91,19 +105,16 @@ def pull_market_data(ticker_symbol, period_string):
 try:
     df = pull_market_data(ticker, historical_horizon)
 
-    # Core Quant Calculations
     mean_return = df['Log_Returns'].mean()
     standard_deviation = df['Log_Returns'].std()
     var_limit = norm.ppf(1 - confidence_interval, mean_return, standard_deviation)
     tail_violations = df['Log_Returns'][df['Log_Returns'] <= var_limit]
     expected_shortfall = tail_violations.mean() if not tail_violations.empty else var_limit
 
-    # GARCH Model Fit
     garch_model_instance = arch_model(df['Log_Returns'], vol='Garch', p=1, q=1, dist=volatility_model_type)
     fitted_execution = garch_model_instance.fit(disp='off')
     df['Conditional_Variance_Risk'] = fitted_execution.conditional_volatility
     
-    # Forecasting Operations
     forward_prediction = fitted_execution.forecast(horizon=projection_timeline)
     future_variance_step = forward_prediction.variance.iloc[-1]
     annualized_vol_projection = np.sqrt(future_variance_step) * np.sqrt(252)
@@ -114,11 +125,11 @@ try:
     variance_persistence = alpha_coefficient + beta_coefficient
 
     # ----------------------------------------------------
-    # 4. FreightWaves Style Dense Core Matrix Table
+    # 3. High Density Matrix Component Generation
     # ----------------------------------------------------
     direction_class = "state-bullish" if df['Log_Returns'].iloc[-1] >= 0 else "state-bearish"
     
-    st.markdown("<div class='fw-section-header'>Core Asset Infrastructure Metrics</div>", unsafe_allow_html=True)
+    st.markdown("<div class='fw-section-header'>Grid System Infrastructure & Risk Bounds</div>", unsafe_allow_html=True)
     st.markdown(f"""
     <table class="fw-matrix-table">
         <tr>
@@ -142,59 +153,38 @@ try:
     </table>
     """, unsafe_allow_html=True)
 
-    # ----------------------------------------------------
-    # 5. Clean, Light-Themed Chart Visualizations
-    # ----------------------------------------------------
+    # High-Contrast Chart Layout 
     visual_grid = make_subplots(
         rows=1, cols=2,
         subplot_titles=("Historical Spot Price Settlement", "Predictive System Volatility Forecast Line"),
         horizontal_spacing=0.06
     )
-    # Price chart
     visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0284C7', width=2)), row=1, col=1)
-    # Forecast chart
     visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#DC2626', width=2, dash='dash')), row=1, col=2)
     
-    # Configure clean, white grid parameters for the chart layout
     visual_grid.update_layout(
         template="plotly_white", 
-        height=300, 
+        height=280, 
         showlegend=False, 
         margin=dict(l=0, r=0, t=25, b=0),
         paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='#F8FAFC'
+        plot_bgcolor='#FFFFFF'
     )
-    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#CBD5E1', title_font=dict(size=10, color='#64748B'))
-    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#CBD5E1', title_font=dict(size=10, color='#64748B'))
-    
+    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A')
+    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A')
     st.plotly_chart(visual_grid, use_container_width=True)
-    st.markdown("<div style='margin-bottom: 25px;'></div>", unsafe_allow_html=True)
 
-    # ----------------------------------------------------
-    # 6. Fundamental Climate & Weather Load Matrix
-    # ----------------------------------------------------
+    # Climate Thermodynamic Load Metrics Box Section
     st.markdown(f"<div class='fw-section-header'>Microclimate Thermodynamic Load Matrix — {asset_info['hq']}</div>", unsafe_allow_html=True)
-    
-    weather_layout_left, weather_layout_right = st.columns([2, 3])
-    with weather_layout_left:
-        st.markdown("""
-        <div style="font-size: 13px; line-height: 1.6; color: #334155; padding-right: 15px;">
-            Thermodynamic weather indices act as leading load indicators for physical power grids, nuclear facilities, and pipeline networks. 
-            <strong>Heating Degree Days (HDD)</strong> isolate demand spikes when regional temperatures fall below 65°F (18°C), forcing increased gas withdrawals. 
-            <strong>Cooling Degree Days (CDD)</strong> track immediate base-load strain on solar generation and nuclear cooling capacity when temperatures transcend the baseline.
-        </div>
-        """, unsafe_allow_html=True)
-        
-    with weather_layout_right:
-        climatological_matrix = pd.DataFrame({
-            'Meteorological Node Metrics': ['Target Node Operational Location', 'Regional Degree Day Base Deviation', '14-Day Vector Forecast Deviation'],
-            'Current Operational Reading': [asset_info['hq'], 'Baseline Standard (+1.2% Structural Shift)', '+2.4°F vs Historic Season Mean'],
-            'Grid Transmission Delivery Impact': ['Isolates asset system location constraints', 'Predicts normal capacity usage profiles', 'Bullish prompt-month contract demand trigger']
-        })
-        st.table(climatological_matrix)
+    climatological_matrix = pd.DataFrame({
+        'Meteorological Node Metrics': ['Target Node Operational Location', 'Regional Degree Day Base Deviation', '14-Day Vector Forecast Deviation'],
+        'Current Operational Reading': [asset_info['hq'], 'Baseline Standard (+1.2% Structural Shift)', '+2.4°F vs Historic Season Mean'],
+        'Grid Transmission Delivery Impact': ['Isolates asset system location constraints', 'Predicts normal capacity usage profiles', 'Bullish prompt-month contract demand trigger']
+    })
+    st.table(climatological_matrix)
 
     # ----------------------------------------------------
-    # 7. News Wire Market Feed (Cascading Live Stream)
+    # 4. News Wire Real-Time Market Feed Node Stream
     # ----------------------------------------------------
     st.markdown("<div class='fw-section-header'>Live Market Infrastructure Wire</div>", unsafe_allow_html=True)
     
@@ -218,17 +208,14 @@ try:
             def __init__(self, title, published):
                 self.title = title
                 self.published = published
-
         headlines_extracted = [
             BackupArticle("Nuclear Power Transmission Interconnect Footprint Expands", "Active Session Node"),
-            BackupArticle("Solar Generation Arrays Map Increased Peak Power Performance Curves", "Active Session Node"),
-            BackupArticle("Henry Hub Infrastructure Squeeze Eases Following Seasonal Rebalancing", "Active Session Node"),
-            BackupArticle("Offshore Extraction Assets Verify Stable Baselines Across Deepwater Systems", "Active Session Node")
+            BackupArticle("Solar Generation Arrays Map Increased Peak Power Performance Curves", "Active Session Node")
         ]
 
     for item in headlines_extracted:
         headline_text = item.title
-        publish_date = item.published if hasattr(item, 'published') else 'Live Data Stream'
+        publish_date = item.published if hasattr(item, 'published') else 'Live Node Stream'
         
         nlp_processing_blob = TextBlob(headline_text)
         score = nlp_processing_blob.sentiment.polarity
@@ -242,9 +229,9 @@ try:
             
         st.markdown(f"""
         <div class="fw-news-wire-row">
-            {sentiment_tag} <strong>{headline_text}</strong> <span style="color: #94A3B8; font-size: 11px; margin-left: 10px;">// {publish_date}</span>
+            {sentiment_tag} <strong style="color:#0F172A !important;">{headline_text}</strong> <span style="color: #475569; font-size: 11px; margin-left: 10px;">// {publish_date}</span>
         </div>
         """, unsafe_allow_html=True)
 
 except Exception as data_exception:
-    st.error(f"Central terminal synchronization delay encountered. Diagnostic code parameters: {data_exception}")
+    st.error(f"Central terminal synchronization delay encountered. Diagnostic parameter details: {data_exception}")
