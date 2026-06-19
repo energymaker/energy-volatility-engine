@@ -10,59 +10,104 @@ import feedparser
 from textblob import TextBlob
 
 # ----------------------------------------------------
-# 1. Page Configuration & Full Contrast FreightWaves CSS Injection
+# 1. Advanced Institutional Interface Stylesheet (Light Isometric Matrix)
 # ----------------------------------------------------
 st.set_page_config(page_title="GLOBAL ENERGY MATRIX TERMINAL", layout="wide")
 
-# High-contrast stylesheet injection guaranteeing deep dark text elements on light background
+# High-contrast, clean architecture overriding all core select boxes safely
 st.markdown("""
     <style>
-        /* Base Canvas - Forced High Contrast Light Theme */
+        /* Base Canvas - High Contrast Light Isometric Emulation */
         .reportview-container { background-color: #F8FAFC !important; }
-        .stApp { background-color: #F8FAFC !important; }
-        
-        /* Isometric Background Hero Canvas Emulation */
-        .fw-hero-banner { 
-            background-color: #F1F5F9; 
-            background-image: linear-gradient(#E2E8F0 1px, transparent 1px), linear-gradient(90deg, #E2E8F0 1px, transparent 1px);
-            background-size: 20px 20px;
-            padding: 30px; 
-            border: 2px solid #0F172A; 
-            margin-bottom: 25px; 
-            border-radius: 4px;
+        .stApp { 
+            background-color: #FAFAFA !important;
+            background-image: 
+                linear-gradient(30deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
+                linear-gradient(150deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
+                linear-gradient(300deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
+                linear-gradient(210deg, #E2E8F0 12%, transparent 12.5%, transparent 87%, #E2E8F0 87.5%, #E2E8F0),
+                linear-gradient(30deg, #E2E8F0 38%, transparent 38.5%, transparent 61%, #E2E8F0 61.5%, #E2E8F0),
+                linear-gradient(150deg, #E2E8F0 38%, transparent 38.5%, transparent 61%, #E2E8F0 61.5%, #E2E8F0);
+            background-size: 50px 86px;
+            background-position: 0 0, 0 0, 25px 43px, 25px 43px, 0 0, 25px 43px;
         }
         
-        /* Direct text color guarantees preventing background blend */
-        h1, h2, h3, h4, h5, h6, p, li, span, label { color: #0F172A !important; font-family: Arial, sans-serif !important; }
+        /* Corporate Rigid Block Header Layout */
+        .fw-terminal-header {
+            background-color: #FFFFFF;
+            border-top: 4px solid #0F172A;
+            border-bottom: 4px solid #0F172A;
+            border-left: 1px solid #0F172A;
+            border-right: 1px solid #0F172A;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .fw-terminal-title {
+            color: #0F172A !important;
+            font-family: 'Helvetica Neue', Arial, sans-serif !important;
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px !important;
+            text-transform: uppercase !important;
+            margin: 0 !important;
+        }
+        .fw-terminal-subtitle {
+            color: #475569 !important;
+            font-family: Arial, sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1.5px !important;
+            margin-top: 6px !important;
+        }
+
+        /* Safe Widget Target Containment preventing text blending or sizing bugs */
+        div[data-testid="stSidebar"] { 
+            background-color: #FFFFFF !important; 
+            border-right: 2px solid #0F172A !important; 
+        }
+        div[data-testid="stSidebar"] label p {
+            color: #0F172A !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            text-transform: uppercase;
+        }
         
-        /* Sidebar Text Visibility Fixes */
-        section[data-testid="stSidebar"] { background-color: #FFFFFF !important; border-right: 2px solid #0F172A !important; }
-        section[data-testid="stSidebar"] div, section[data-testid="stSidebar"] label, section[data-testid="stSidebar"] p { color: #0F172A !important; font-weight: 600 !important; }
+        /* Enforce high-contrast dark text inside Select Box options dynamically */
+        div[data-baseweb="select"] * {
+            color: #0F172A !important;
+            font-weight: 500 !important;
+        }
         
-        /* Matrix Grid System Data-Dense Layout Tables */
-        .fw-matrix-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 20px; border: 2px solid #0F172A; }
-        .fw-matrix-table td { border: 1px solid #0F172A; padding: 10px 14px; background-color: #FFFFFF; color: #0F172A !important; font-weight: 500; }
-        .fw-hdr-label { background-color: #E2E8F0 !important; color: #0F172A !important; font-weight: 700 !important; text-transform: uppercase; width: 18%; }
+        /* Core Data Grid Matrix */
+        .fw-matrix-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 25px; border: 2px solid #0F172A; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .fw-matrix-table td { border: 1px solid #0F172A; padding: 12px 16px; background-color: #FFFFFF; color: #0F172A !important; font-weight: 500; }
+        .fw-hdr-label { background-color: #F1F5F9 !important; color: #0F172A !important; font-weight: 700 !important; text-transform: uppercase; width: 18%; }
         
-        /* News Rows */
-        .fw-news-wire-row { border: 1px solid #0F172A; padding: 12px; background-color: #FFFFFF; margin-bottom: 8px; border-left: 5px solid #0284C7; color: #0F172A !important; }
-        .fw-asset-badge { background-color: #0F172A; color: #FFFFFF !important; padding: 3px 8px; font-weight: bold; border-radius: 2px; font-size: 11px; }
+        /* Infrastructure Wire Rows */
+        .fw-news-wire-row { 
+            border: 1px solid #0F172A; 
+            padding: 14px; 
+            background-color: #FFFFFF; 
+            margin-bottom: 10px; 
+            border-left: 6px solid #0F172A; 
+            color: #0F172A !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .fw-section-header { font-size: 14px; font-weight: 800; color: #0F172A !important; text-transform: uppercase; margin-bottom: 14px; border-bottom: 3px solid #0F172A; padding-bottom: 4px; letter-spacing: 0.5px; }
         
-        .fw-section-header { font-size: 15px; font-weight: 800; color: #0F172A !important; text-transform: uppercase; margin-bottom: 12px; border-bottom: 3px solid #0F172A; padding-bottom: 4px; }
-        
-        .state-bullish { color: #15803D !important; font-weight: 700; }
-        .state-bearish { color: #B91C1C !important; font-weight: 700; }
-        .state-neutral { color: #475569 !important; font-weight: 700; }
+        /* Status Elements */
+        .state-pos { color: #15803D !important; font-weight: 700; }
+        .state-neg { color: #B91C1C !important; font-weight: 700; }
     </style>
 """, unsafe_allow_html=True)
 
-# FreightWaves-Style Header Canvas Container Section
+# Main Corporate Header Block
 st.markdown("""
-    <div class="fw-hero-banner">
-        <h2 style="margin:0; font-weight:900; letter-spacing:-0.5px;">ENERGY OPERATIONS INFRASTRUCTURE BALANCING SYMPOSIUM</h2>
-        <p style="margin:5px 0 0 0; font-weight:600; text-transform:uppercase; font-size:12px; letter-spacing:1px; color:#475569;">
-            Live Processing Feed Nodes // Nuclear Grid Dispatch // Solar Inflow Capacity Models
-        </p>
+    <div class="fw-terminal-header">
+        <h1 class="fw-terminal-title">ENERGY INFRASTRUCTURE & DISPATCH REGULATORY TERMINAL</h1>
+        <div class="fw-terminal-subtitle">PRODUCTION DATA MATRICES // SYSTEM VOLATILITY HORIZONS // LIVE TRANSMISSION LOGS</div>
     </div>
 """, unsafe_allow_html=True)
 
@@ -80,16 +125,16 @@ ASSET_METADATA = {
 }
 
 st.sidebar.markdown("### TERMINAL PARAMETERS")
-selected_display = st.sidebar.selectbox("Asset Target Track", list(ASSET_METADATA.keys()))
+selected_display = st.sidebar.selectbox("Asset Track Target", list(ASSET_METADATA.keys()))
 asset_info = ASSET_METADATA[selected_display]
 ticker = asset_info["ticker"]
 
-historical_horizon = st.sidebar.selectbox("Lookback Window", ["1y", "2y", "5y"], index=1)
-volatility_model_type = st.sidebar.selectbox("Variance Vector Distribution", ["studentst", "normal"], index=0)
-confidence_interval = st.sidebar.selectbox("Risk Filter Bound (VaR)", [0.95, 0.99], index=0)
-projection_timeline = st.sidebar.slider("Forecast Modeling Horizon", 5, 30, 15)
+historical_horizon = st.sidebar.selectbox("Historical Bounds", ["1y", "2y", "5y"], index=1)
+volatility_model_type = st.sidebar.selectbox("Statistical Matrix Mode (GARCH)", ["studentst", "normal"], index=0)
+confidence_interval = st.sidebar.selectbox("Value at Risk Threshold (VaR)", [0.95, 0.99], index=0)
+projection_timeline = st.sidebar.slider("Forecast Lookahead Window (Days)", 5, 30, 15)
 
-# Data Ingestion Execution Block
+# Data Acquisition Engine
 @st.cache_data(ttl=900)
 def pull_market_data(ticker_symbol, period_string):
     raw_data = yf.download(ticker_symbol, period=period_string, group_by="ticker")
@@ -125,68 +170,60 @@ try:
     variance_persistence = alpha_coefficient + beta_coefficient
 
     # ----------------------------------------------------
-    # 3. High Density Matrix Component Generation
+    # 3. Structural Operational Data Grid
     # ----------------------------------------------------
-    direction_class = "state-bullish" if df['Log_Returns'].iloc[-1] >= 0 else "state-bearish"
+    direction_class = "state-pos" if df['Log_Returns'].iloc[-1] >= 0 else "state-neg"
     
-    st.markdown("<div class='fw-section-header'>Grid System Infrastructure & Risk Bounds</div>", unsafe_allow_html=True)
+    st.markdown("<div class='fw-section-header'>Asset Infrastructure Metrics</div>", unsafe_allow_html=True)
     st.markdown(f"""
     <table class="fw-matrix-table">
         <tr>
-            <td class="fw-hdr-label">Asset Token</td><td><span class="fw-asset-badge">{ticker}</span></td>
-            <td class="fw-hdr-label">Infrastructure Type</td><td>{asset_info['type']}</td>
-            <td class="fw-hdr-label">Primary Assets</td><td>{asset_info['infrastructure']}</td>
-            <td class="fw-hdr-label">Spot Price</td><td class="{direction_class}">${df['Close'].iloc[-1]:.2f}</td>
+            <td class="fw-hdr-label">Identifier Ticker</td><td><strong>{ticker}</strong></td>
+            <td class="fw-hdr-label">System Classification</td><td>{asset_info['type']}</td>
+            <td class="fw-hdr-label">Physical Grid Infrastructure</td><td>{asset_info['infrastructure']}</td>
+            <td class="fw-hdr-label">Last Valuation</td><td class="{direction_class}">${df['Close'].iloc[-1]:.2f}</td>
         </tr>
         <tr>
-            <td class="fw-hdr-label">Daily Net Shift</td><td class="{direction_class}">{df['Log_Returns'].iloc[-1]:.2f}%</td>
-            <td class="fw-hdr-label">Value at Risk (VaR)</td><td class="state-bearish">{var_limit:.2f}%</td>
-            <td class="fw-hdr-label">Expected Shortfall</td><td class="state-bearish">{expected_shortfall:.2f}%</td>
-            <td class="fw-hdr-label">Shock Persistence</td><td>{variance_persistence:.3f}</td>
+            <td class="fw-hdr-label">Daily Settlement Net</td><td class="{direction_class}">{df['Log_Returns'].iloc[-1]:.2f}%</td>
+            <td class="fw-hdr-label">Value at Risk (VaR)</td><td class="state-neg">{var_limit:.2f}%</td>
+            <td class="fw-hdr-label">Expected Shortfall</td><td class="state-neg">{expected_shortfall:.2f}%</td>
+            <td class="fw-hdr-label">Variance Persistence</td><td>{variance_persistence:.3f}</td>
         </tr>
         <tr>
-            <td class="fw-hdr-label">Model Factor Alpha</td><td>{alpha_coefficient:.4f}</td>
-            <td class="fw-hdr-label">Model Factor Beta</td><td>{beta_coefficient:.4f}</td>
-            <td class="fw-hdr-label">Risk Timeframe</td><td>{projection_timeline} Trading Days</td>
-            <td class="fw-hdr-label">HQ Control Node</td><td>{asset_info['hq']}</td>
+            <td class="fw-hdr-label">Model Alpha Factor</td><td>{alpha_coefficient:.4f}</td>
+            <td class="fw-hdr-label">Model Beta Factor</td><td>{beta_coefficient:.4f}</td>
+            <td class="fw-hdr-label">Analysis Target Horizon</td><td>{projection_timeline} Business Days</td>
+            <td class="fw-hdr-label">Operational Control Node</td><td>{asset_info['hq']}</td>
         </tr>
     </table>
     """, unsafe_allow_html=True)
 
-    # High-Contrast Chart Layout 
-    visual_grid = make_subplots(
-        rows=1, cols=2,
-        subplot_titles=("Historical Spot Price Settlement", "Predictive System Volatility Forecast Line"),
-        horizontal_spacing=0.06
-    )
-    visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0284C7', width=2)), row=1, col=1)
-    visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#DC2626', width=2, dash='dash')), row=1, col=2)
+    # High-Contrast Pure Line Charts
+    visual_grid = make_subplots(rows=1, cols=2, subplot_titles=("Historical Asset Pricing Series", "Statistical Volatility Horizon Map"), horizontal_spacing=0.06)
+    visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0F172A', width=2)), row=1, col=1)
+    visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#B91C1C', width=2, dash='dash')), row=1, col=2)
     
     visual_grid.update_layout(
-        template="plotly_white", 
-        height=280, 
-        showlegend=False, 
-        margin=dict(l=0, r=0, t=25, b=0),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='#FFFFFF'
+        template="plotly_white", height=280, showlegend=False, margin=dict(l=0, r=0, t=25, b=0),
+        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='#FFFFFF'
     )
     visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A')
     visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A')
     st.plotly_chart(visual_grid, use_container_width=True)
 
-    # Climate Thermodynamic Load Metrics Box Section
-    st.markdown(f"<div class='fw-section-header'>Microclimate Thermodynamic Load Matrix — {asset_info['hq']}</div>", unsafe_allow_html=True)
+    # Microclimate Thermodynamic Load Section
+    st.markdown(f"<div class='fw-section-header'>Microclimate Thermodynamic Load Grid — {asset_info['hq']}</div>", unsafe_allow_html=True)
     climatological_matrix = pd.DataFrame({
-        'Meteorological Node Metrics': ['Target Node Operational Location', 'Regional Degree Day Base Deviation', '14-Day Vector Forecast Deviation'],
-        'Current Operational Reading': [asset_info['hq'], 'Baseline Standard (+1.2% Structural Shift)', '+2.4°F vs Historic Season Mean'],
-        'Grid Transmission Delivery Impact': ['Isolates asset system location constraints', 'Predicts normal capacity usage profiles', 'Bullish prompt-month contract demand trigger']
+        'Meteorological Node Metrics': ['Target Node Location Grid Point', 'Regional Degree Day Base Shift', '14-Day Temperature Deviation Model'],
+        'Operational Value Reading': [asset_info['hq'], 'Baseline Normalized (+1.2% Structural Shift)', '+2.4°F vs Historic Season Vector'],
+        'Grid Load Delivery Implication': ['Isolates spatial delivery constraints', 'Forecasts baseline consumer volume demand profiles', 'Prompt-month storage draw trigger vector']
     })
     st.table(climatological_matrix)
 
     # ----------------------------------------------------
-    # 4. News Wire Real-Time Market Feed Node Stream
+    # 4. Pure Professional News Wire Stream
     # ----------------------------------------------------
-    st.markdown("<div class='fw-section-header'>Live Market Infrastructure Wire</div>", unsafe_allow_html=True)
+    st.markdown("<div class='fw-section-header'>Live Market Transmission Wire</div>", unsafe_allow_html=True)
     
     FEED_ENDPOINTS = [
         "https://www.cnbc.com/id/19854910/device/rss/rss.html",
@@ -209,29 +246,31 @@ try:
                 self.title = title
                 self.published = published
         headlines_extracted = [
-            BackupArticle("Nuclear Power Transmission Interconnect Footprint Expands", "Active Session Node"),
-            BackupArticle("Solar Generation Arrays Map Increased Peak Power Performance Curves", "Active Session Node")
+            BackupArticle("Nuclear Generation Grid Interconnect Footprint Expands", "System Session Feed Log"),
+            BackupArticle("Photovoltaic Transmission Matrix Logs Peak Seasonal Performance Profiles", "System Session Feed Log")
         ]
 
     for item in headlines_extracted:
         headline_text = item.title
-        publish_date = item.published if hasattr(item, 'published') else 'Live Node Stream'
+        publish_date = item.published if hasattr(item, 'published') else 'Live Entry Stream'
         
         nlp_processing_blob = TextBlob(headline_text)
         score = nlp_processing_blob.sentiment.polarity
         
         if score < -0.02:
-            sentiment_tag = '<span class="state-bearish">[RISK CONTRACTION]</span>'
+            sentiment_tag = '<span class="state-neg">// RISK DEVIATION IMPLICATION</span>'
         elif score > 0.02:
-            sentiment_tag = '<span class="state-bullish">[CAPACITY EXPANSION]</span>'
+            sentiment_tag = '<span class="state-pos">// POSITIVE EFFICIENCY PROFILE</span>'
         else:
-            sentiment_tag = '<span class="state-neutral">[STABLE PROFILE]</span>'
+            sentiment_tag = '<span style="color:#475569; font-weight:700;">// VOLATILITY STABLE PROFILE</span>'
             
         st.markdown(f"""
         <div class="fw-news-wire-row">
-            {sentiment_tag} <strong style="color:#0F172A !important;">{headline_text}</strong> <span style="color: #475569; font-size: 11px; margin-left: 10px;">// {publish_date}</span>
+            <strong style="color:#0F172A !important; font-size:14px;">{headline_text}</strong> 
+            <br>
+            <span style="color: #475569; font-size: 11px; text-transform: uppercase; font-weight:700;">{publish_date} {sentiment_tag}</span>
         </div>
         """, unsafe_allow_html=True)
 
 except Exception as data_exception:
-    st.error(f"Central terminal synchronization delay encountered. Diagnostic parameter details: {data_exception}")
+    st.error(f"Central terminal synchronization delay encountered. Details: {data_exception}")
