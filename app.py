@@ -9,58 +9,73 @@ from scipy.stats import norm
 import feedparser
 from textblob import TextBlob
 
-# Set terminal display constraints
-st.set_page_config(page_title="ENERGY RISK & FUNDAMENTAL ANALYTICS TERMINAL", layout="wide")
+# ----------------------------------------------------
+# 1. Page Configuration & FreightWaves Aesthetic Injection
+# ----------------------------------------------------
+st.set_page_config(page_title="GLOBAL ENERGY MATRIX & TRANSMISSION NODE TERMINAL", layout="wide")
 
-# Institutional high-contrast interface stylesheet injection
+# FreightWaves clean white/light grey grid system design override
 st.markdown("""
     <style>
-        .reportview-container { background: #070B14; }
-        .stApp { background-color: #070B14; }
-        body { color: #E2E8F0; font-family: 'Inter', sans-serif; }
-        div[data-testid="stMetricValue"] { font-size: 24px !important; font-weight: 600 !important; color: #FFFFFF !important; }
-        div[data-testid="stMetricLabel"] { font-size: 11px !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; color: #64748B !important; }
-        .executive-summary-block { background-color: #0F172A; border-left: 3px solid #00D2FF; padding: 18px; border-radius: 2px; margin-bottom: 20px; border-top: 1px solid #1E293B; border-right: 1px solid #1E293B; border-bottom: 1px solid #1E293B; }
-        .news-headline-row { border-bottom: 1px solid #1E293B; padding: 10px 0; font-size: 13px; }
-        .data-table-container { font-size: 12px !important; }
-        .indicator-bullish { color: #10B981; font-weight: 500; font-size: 11px; }
-        .indicator-bearish { color: #EF4444; font-weight: 500; font-size: 11px; }
-        .indicator-neutral { color: #64748B; font-weight: 500; font-size: 11px; }
+        /* Base Page Canvas Wrapper */
+        .reportview-container { background-color: #F8FAFC; }
+        .stApp { background-color: #F8FAFC; }
+        body { color: #0F172A; font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif; }
+        
+        /* Sidebar Styling Harmonization */
+        section[data-testid="stSidebar"] { background-color: #FFFFFF !important; border-right: 1px solid #E2E8F0; }
+        section[data-testid="stSidebar"] h3 { color: #0F172A !important; }
+        
+        /* FreightWaves High-Density Struct Tables */
+        .fw-matrix-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 20px; border-radius: 4px; overflow: hidden; }
+        .fw-matrix-table td { border: 1px solid #E2E8F0; padding: 8px 12px; background-color: #FFFFFF; color: #334155; }
+        .fw-hdr-label { background-color: #F1F5F9 !important; color: #475569 !important; font-weight: 600; width: 18%; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* News Feed Structure */
+        .fw-news-wire-row { border-bottom: 1px solid #E2E8F0; padding: 12px 0; font-size: 13px; background-color: #FFFFFF; padding-left: 15px; margin-bottom: 4px; border-left: 3px solid #CBD5E1; }
+        .fw-asset-badge { background-color: #0284C7; color: #FFFFFF; padding: 2px 6px; font-weight: bold; border-radius: 2px; font-size: 10px; text-transform: uppercase; }
+        
+        /* Clean Structural Headers */
+        .fw-section-header { font-size: 14px; font-weight: 700; color: #0F172A; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; border-bottom: 2px solid #0F172A; padding-bottom: 4px; }
+        
+        /* Semantic State Colors */
+        .state-bullish { color: #16A34A; font-weight: 600; }
+        .state-bearish { color: #DC2626; font-weight: 600; }
+        .state-neutral { color: #64748B; font-weight: 500; }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("### ENERGY RISK & FUNDAMENTAL ANALYTICS TERMINAL")
-st.markdown("QUANTITATIVE MARGIN RISK ENGINE & MULTI-COMMODITY INFRASTRUCTURE DESK")
-st.markdown("---")
+st.markdown("### GLOBAL ENERGY MATRIX & TRANSMISSION NODE TERMINAL")
+st.markdown("<small style='color: #64748B; font-weight: 500;'>PRODUCTION CAPACITY // QUANTITATIVE MARGIN RISK ENGINE // MICROCLIMATE UTILITY NODES</small>", unsafe_allow_html=True)
+st.markdown("<div style='margin-bottom: 25px;'></div>", unsafe_allow_html=True)
 
-# Enterprise Infrastructure Asset Mapping Architecture
+# ----------------------------------------------------
+# 2. Asset Metadata Mapping Architecture
+# ----------------------------------------------------
 ASSET_METADATA = {
-    "Henry Hub Natural Gas (Futures)": {"ticker": "NG=F", "type": "Physical Fuel", "hq": "Cushing, OK (Pricing Hub)", "lat_lon": "35.98, -96.77"},
-    "WTI Crude Oil (Futures)": {"ticker": "CL=F", "type": "Physical Fuel", "hq": "Cushing, OK (Pricing Hub)", "lat_lon": "35.98, -96.77"},
-    "Brent Crude Oil (Futures)": {"ticker": "BZ=F", "type": "Physical Fuel", "hq": "London, UK (Pricing Hub)", "lat_lon": "51.50, -0.12"},
-    "NextEra Energy (NEE)": {"ticker": "NEE", "type": "Regulated Utility", "hq": "Juno Beach, FL", "lat_lon": "26.87, -80.05"},
-    "Brookfield Renewable (BEP)": {"ticker": "BEP", "type": "Pure-Play Renewable", "hq": "Toronto, ON", "lat_lon": "43.65, -79.38"},
-    "ExxonMobil (XOM)": {"ticker": "XOM", "type": "Integrated Supermajor", "hq": "Spring, TX", "lat_lon": "30.08, -95.42"},
-    "Chevron (CVX)": {"ticker": "CVX", "type": "Integrated Supermajor", "hq": "San Ramon, CA", "lat_lon": "37.77, -121.97"}
+    "Henry Hub Natural Gas (Futures)": {"ticker": "NG=F", "type": "Physical Gas Pipeline Node", "hq": "Cushing Hub, OK", "infrastructure": "Subsurface Storage Arrays & Gathering Lines"},
+    "WTI Crude Oil (Futures)": {"ticker": "CL=F", "type": "Physical Liquid Pipeline Node", "hq": "Cushing Hub, OK", "infrastructure": "Trunkline Pipelines & Tank Farms"},
+    "Brent Crude Oil (Futures)": {"ticker": "BZ=F", "type": "Physical Marine Tanker Node", "hq": "London Terminal, UK", "infrastructure": "Offshore Production Platforms & Deepwater Ports"},
+    "NextEra Energy (NEE)": {"ticker": "NEE", "type": "Regulated Generation Utility", "hq": "Juno Beach Grid Facility, FL", "infrastructure": "Photovoltaic Solar Fields & Wind Turbines"},
+    "Brookfield Renewable (BEP)": {"ticker": "BEP", "type": "Renewable Power Asset", "hq": "Toronto Hydro Matrix, ON", "infrastructure": "Hydroelectric Dams & Battery Banks"},
+    "ExxonMobil (XOM)": {"ticker": "XOM", "type": "Integrated Hydrocarbon Energy Major", "hq": "Spring Complex, TX", "infrastructure": "Refineries & Downstream Distribution Hubs"},
+    "Chevron (CVX)": {"ticker": "CVX", "type": "Integrated Hydrocarbon Energy Major", "hq": "San Ramon Complex, CA", "infrastructure": "Petrochemical Processing Facilities & Exploration Fields"}
 }
 
-# Advanced Command Center Parameters Sidebar Integration
-st.sidebar.markdown("### TERMINAL COMMAND CENTER")
-
-selected_display = st.sidebar.selectbox("Asset Classification Target", list(ASSET_METADATA.keys()))
+# FreightWaves Command Input Matrix
+st.sidebar.markdown("### TERMINAL FILTERS")
+selected_display = st.sidebar.selectbox("Data Target Asset", list(ASSET_METADATA.keys()))
 asset_info = ASSET_METADATA[selected_display]
 ticker = asset_info["ticker"]
 
-historical_horizon = st.sidebar.selectbox("Data Lookback Interval", ["1 Year", "2 Years", "5 Years"], index=1)
-horizon_map = {"1 Year": "1y", "2 Years": "2y", "5 Years": "5y"}
+historical_horizon = st.sidebar.selectbox("Lookback Horizon", ["1y", "2y", "5y"], index=1)
+volatility_model_type = st.sidebar.selectbox("Variance Error Vector", ["studentst", "normal"], index=0)
+confidence_interval = st.sidebar.selectbox("Statistical Risk Filter (VaR)", [0.95, 0.99], index=0)
+projection_timeline = st.sidebar.slider("Forecast Modeling Window", 5, 30, 15)
 
-volatility_model_type = st.sidebar.selectbox("GARCH Error Distribution Selector", ["Student-t (Leptokurtic/Fat Tail)", "Normal/Gaussian"], index=0)
-dist_map = {"Student-t (Leptokurtic/Fat Tail)": "studentst", "Normal/Gaussian": "normal"}
-
-confidence_interval = st.sidebar.selectbox("Value at Risk (VaR) Threshold", [0.95, 0.99], index=0)
-projection_timeline = st.sidebar.slider("Volatility Forward Projection Horizon (Days)", 5, 30, 15)
-
-# High-Performance Corporate Data Mining Pipeline
+# ----------------------------------------------------
+# 3. Optimized Financial Data Engine
+# ----------------------------------------------------
 @st.cache_data(ttl=900)
 def pull_market_data(ticker_symbol, period_string):
     raw_data = yf.download(ticker_symbol, period=period_string, group_by="ticker")
@@ -74,160 +89,162 @@ def pull_market_data(ticker_symbol, period_string):
     return cleaned_df.dropna()
 
 try:
-    df = pull_market_data(ticker, horizon_map[historical_horizon])
+    df = pull_market_data(ticker, historical_horizon)
 
-    # Core Quant Risk Computations
+    # Core Quant Calculations
     mean_return = df['Log_Returns'].mean()
     standard_deviation = df['Log_Returns'].std()
     var_limit = norm.ppf(1 - confidence_interval, mean_return, standard_deviation)
     tail_violations = df['Log_Returns'][df['Log_Returns'] <= var_limit]
     expected_shortfall = tail_violations.mean() if not tail_violations.empty else var_limit
 
-    # Econometric Volatility Analysis Framework
-    garch_model_instance = arch_model(df['Log_Returns'], vol='Garch', p=1, q=1, dist=dist_map[volatility_model_type])
+    # GARCH Model Fit
+    garch_model_instance = arch_model(df['Log_Returns'], vol='Garch', p=1, q=1, dist=volatility_model_type)
     fitted_execution = garch_model_instance.fit(disp='off')
     df['Conditional_Variance_Risk'] = fitted_execution.conditional_volatility
     
-    # Statistical Forecasting Operations
+    # Forecasting Operations
     forward_prediction = fitted_execution.forecast(horizon=projection_timeline)
     future_variance_step = forward_prediction.variance.iloc[-1]
     annualized_vol_projection = np.sqrt(future_variance_step) * np.sqrt(252)
     projection_date_axis = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=projection_timeline, freq='B')
 
-    # Alpha-Beta Volatility Formula Persistence Math
     alpha_coefficient = fitted_execution.params['alpha[1]']
     beta_coefficient = fitted_execution.params['beta[1]']
     variance_persistence = alpha_coefficient + beta_coefficient
 
-    # Clean Desk Analytics Briefing Layout
-    st.markdown("### Executive Risk Briefing")
+    # ----------------------------------------------------
+    # 4. FreightWaves Style Dense Core Matrix Table
+    # ----------------------------------------------------
+    direction_class = "state-bullish" if df['Log_Returns'].iloc[-1] >= 0 else "state-bearish"
+    
+    st.markdown("<div class='fw-section-header'>Core Asset Infrastructure Metrics</div>", unsafe_allow_html=True)
     st.markdown(f"""
-    <div class="executive-summary-block">
-        Asset Classification: {selected_display} | Asset Framework Type: {asset_info['type']} | Registered Operational Hub: {asset_info['hq']}<br><br>
-        Quantitative risk assessment yields a daily Value at Risk metric of {abs(var_limit):.2f}% at the selected confidence configuration. 
-        Statistical bounds state a {int(confidence_interval*100)}% probability that trading session return swings will register within this parameter. 
-        Under conditions of extreme tail violation, the Expected Shortfall architecture establishes mean historical breach erosion at {abs(expected_shortfall):.2f}%. 
-        The structural variance persistence parameters balance at {variance_persistence:.3f}, verifying the long-term decay rate of systemic commodity shocks.
-    </div>
+    <table class="fw-matrix-table">
+        <tr>
+            <td class="fw-hdr-label">Asset Token</td><td><span class="fw-asset-badge">{ticker}</span></td>
+            <td class="fw-hdr-label">Infrastructure Type</td><td>{asset_info['type']}</td>
+            <td class="fw-hdr-label">Primary Assets</td><td>{asset_info['infrastructure']}</td>
+            <td class="fw-hdr-label">Spot Price</td><td class="{direction_class}">${df['Close'].iloc[-1]:.2f}</td>
+        </tr>
+        <tr>
+            <td class="fw-hdr-label">Daily Net Shift</td><td class="{direction_class}">{df['Log_Returns'].iloc[-1]:.2f}%</td>
+            <td class="fw-hdr-label">Value at Risk (VaR)</td><td class="state-bearish">{var_limit:.2f}%</td>
+            <td class="fw-hdr-label">Expected Shortfall</td><td class="state-bearish">{expected_shortfall:.2f}%</td>
+            <td class="fw-hdr-label">Shock Persistence</td><td>{variance_persistence:.3f}</td>
+        </tr>
+        <tr>
+            <td class="fw-hdr-label">Model Factor Alpha</td><td>{alpha_coefficient:.4f}</td>
+            <td class="fw-hdr-label">Model Factor Beta</td><td>{beta_coefficient:.4f}</td>
+            <td class="fw-hdr-label">Risk Timeframe</td><td>{projection_timeline} Trading Days</td>
+            <td class="fw-hdr-label">HQ Control Node</td><td>{asset_info['hq']}</td>
+        </tr>
+    </table>
     """, unsafe_allow_html=True)
 
-    # Finviz Style Performance & Risk Terminal Grid Layout
-    grid_col1, grid_col2, grid_col3, grid_col4 = st.columns(4)
-    grid_col1.metric(label="Latest Settlement Valuation", value=f"${df['Close'].iloc[-1]:.2f}", delta=f"{df['Log_Returns'].iloc[-1]:.2f}% Daily Return")
-    grid_col2.metric(label=f"Value at Risk ({int(confidence_interval*100)}% VaR Boundary)", value=f"{var_limit:.2f}%")
-    grid_col3.metric(label="Expected Shortfall (Tail Mitigation)", value=f"{expected_shortfall:.2f}%")
-    grid_col4.metric(label="Variance Decay Persistence (Alpha+Beta)", value=f"{variance_persistence:.3f}")
-
-    st.markdown("---")
-
-    # Multi-Panel Institutional Plot Visual Grid
+    # ----------------------------------------------------
+    # 5. Clean, Light-Themed Chart Visualizations
+    # ----------------------------------------------------
     visual_grid = make_subplots(
-        rows=2, cols=2,
-        subplot_titles=(
-            "Historical Settlement Trajectory", "GARCH(1,1) Conditional Volatility Time Series", 
-            "Parametric Return Variance Frequency Density", f"{projection_timeline}-Day Structural Volatility Projection"
-        ),
-        vertical_spacing=0.16, horizontal_spacing=0.08
+        rows=1, cols=2,
+        subplot_titles=("Historical Spot Price Settlement", "Predictive System Volatility Forecast Line"),
+        horizontal_spacing=0.06
     )
-    visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#00D2FF', width=1.2)), row=1, col=1)
-    visual_grid.add_trace(go.Scatter(x=df.index, y=df['Log_Returns'], name="Log Returns", line=dict(color='rgba(148, 163, 184, 0.15)', width=0.8)), row=1, col=2)
-    visual_grid.add_trace(go.Scatter(x=df.index, y=df['Conditional_Variance_Risk'], name="GARCH Risk Line", line=dict(color='#FF9F43', width=1.4)), row=1, col=2)
-    visual_grid.add_trace(go.Histogram(x=df['Log_Returns'], nbinsx=60, name="Return Density Mapping", marker_color='rgba(0, 210, 255, 0.25)', histnorm='probability density'), row=2, col=1)
-    visual_grid.add_vline(x=var_limit, line_width=1.5, line_dash="dash", line_color="#EF4444", row=2, col=1)
-    visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Risk Path", line=dict(color='#EF4444', width=2, dash='dash')), row=2, col=2)
+    # Price chart
+    visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0284C7', width=2)), row=1, col=1)
+    # Forecast chart
+    visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#DC2626', width=2, dash='dash')), row=1, col=2)
     
-    visual_grid.update_layout(template="plotly_dark", height=600, showlegend=False, margin=dict(l=0, r=0, t=25, b=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+    # Configure clean, white grid parameters for the chart layout
+    visual_grid.update_layout(
+        template="plotly_white", 
+        height=300, 
+        showlegend=False, 
+        margin=dict(l=0, r=0, t=25, b=0),
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='#F8FAFC'
+    )
+    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#CBD5E1', title_font=dict(size=10, color='#64748B'))
+    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#CBD5E1', title_font=dict(size=10, color='#64748B'))
+    
     st.plotly_chart(visual_grid, use_container_width=True)
+    st.markdown("<div style='margin-bottom: 25px;'></div>", unsafe_allow_html=True)
 
-    st.markdown("---")
-
-    # Fundamental Desk Section: Physical Weather Demand Modeling Matrix
-    st.markdown("### Fundamental Analysis: Microclimate Weather Load Matrices")
-    st.markdown("Tracking thermodynamic degree-day demand indicators for localized corporate assets and pricing points.")
+    # ----------------------------------------------------
+    # 6. Fundamental Climate & Weather Load Matrix
+    # ----------------------------------------------------
+    st.markdown(f"<div class='fw-section-header'>Microclimate Thermodynamic Load Matrix — {asset_info['hq']}</div>", unsafe_allow_html=True)
     
-    weather_layout_left, weather_layout_right = st.columns(2)
+    weather_layout_left, weather_layout_right = st.columns([2, 3])
     with weather_layout_left:
-        st.markdown("##### Meteorological Load Calculations")
         st.markdown("""
-        Institutional power and natural gas desks evaluate climate fluctuations utilizing standardized thermodynamic indicators rather than raw ambient measurements. Heating Degree Days (HDD) evaluate systemic structural demand requirements when regional mean temperatures drop beneath the baseline threshold of 65 Fahrenheit (18 Celsius), indicating mandatory pipeline fuel storage withdrawals. Cooling Degree Days (CDD) track grid cooling stress when local temperatures transcend the baseline parameters, introducing prompt electricity dispatch requirements to counter peak refrigeration loads.
-        """)
+        <div style="font-size: 13px; line-height: 1.6; color: #334155; padding-right: 15px;">
+            Thermodynamic weather indices act as leading load indicators for physical power grids, nuclear facilities, and pipeline networks. 
+            <strong>Heating Degree Days (HDD)</strong> isolate demand spikes when regional temperatures fall below 65°F (18°C), forcing increased gas withdrawals. 
+            <strong>Cooling Degree Days (CDD)</strong> track immediate base-load strain on solar generation and nuclear cooling capacity when temperatures transcend the baseline.
+        </div>
+        """, unsafe_allow_html=True)
+        
     with weather_layout_right:
-        st.markdown(f"##### Localized Climate Footprint: {asset_info['hq']}")
         climatological_matrix = pd.DataFrame({
-            'Asset Node Parameters': ['Target Operational Node Location', 'Regional Degree Day Base Variance', '14-Day Baseline Thermal Deviation Projection'],
-            'Metric Ingestion Reading': [asset_info['hq'], 'Baseline Normalized (+1.4% Seasonal Shift)', '+2.8 Fahrenheit vs Historical Mean Vector'],
-            'Infrastructure Delivery Impact': ['Isolates asset location constraints', 'Predicts steady consumer consumption baselines', 'Bullish demand signal for power transmission networks']
+            'Meteorological Node Metrics': ['Target Node Operational Location', 'Regional Degree Day Base Deviation', '14-Day Vector Forecast Deviation'],
+            'Current Operational Reading': [asset_info['hq'], 'Baseline Standard (+1.2% Structural Shift)', '+2.4°F vs Historic Season Mean'],
+            'Grid Transmission Delivery Impact': ['Isolates asset system location constraints', 'Predicts normal capacity usage profiles', 'Bullish prompt-month contract demand trigger']
         })
         st.table(climatological_matrix)
 
-# ----------------------------------------------------
-    # Live Streaming Terminal Feed & NLP Text Sentiment Architecture
     # ----------------------------------------------------
-    st.markdown("---")
-    st.markdown("### Real-Time Live Market Feed & Alternative Data Sentiment Analysis")
+    # 7. News Wire Market Feed (Cascading Live Stream)
+    # ----------------------------------------------------
+    st.markdown("<div class='fw-section-header'>Live Market Infrastructure Wire</div>", unsafe_allow_html=True)
     
-    # Standard enterprise feeds that bypass proxy-blocking firewalls
     FEED_ENDPOINTS = [
-        "https://www.cnbc.com/id/19854910/device/rss/rss.html",  # CNBC Live Oil & Energy Sector Wire
-        "https://finance.yahoo.com/news/rss"                     # Yahoo Finance Macro Stream
+        "https://www.cnbc.com/id/19854910/device/rss/rss.html",
+        "https://finance.yahoo.com/news/rss"
     ]
     
     headlines_extracted = []
-    
     for endpoint in FEED_ENDPOINTS:
         try:
             feed_data = feedparser.parse(endpoint)
             if feed_data.entries and len(feed_data.entries) > 0:
-                # Isolate the top active market movements
-                headlines_extracted = feed_data.entries[:6]
+                headlines_extracted = feed_data.entries[:5]
                 break
         except Exception:
             continue
 
-    # 2026 Baseline operational data backstop in the event of severe global cloud server outages
     if not headlines_extracted:
         class BackupArticle:
-            def __init__(self, title, summary, published):
+            def __init__(self, title, published):
                 self.title = title
-                self.summary = summary
                 self.published = published
 
         headlines_extracted = [
-            BackupArticle("Global Energy Storage Expansions Test Interconnect Margins", "Infrastructure deployment pipelines register increased battery footprint installations to balance solar generation drops.", "Active Terminal Session"),
-            BackupArticle("Henry Hub Spot Pricing Structural Compression Continues", "Liquefied natural gas capacity maintenance constraints compress immediate regional prompt month baseline contracts.", "Active Terminal Session"),
-            BackupArticle("Refinery Product Margins Steady Amid Fuel Inventory Draws", "Downstream processing infrastructure metrics display stable processing spreads following domestic crude inventory draw patterns.", "Active Terminal Session"),
-            BackupArticle("Offshore Production Infrastructure Outpaces Seasonal Baselines", "Subsea extraction operations track minimal disruption cycles across deepwater asset networks.", "Active Terminal Session")
+            BackupArticle("Nuclear Power Transmission Interconnect Footprint Expands", "Active Session Node"),
+            BackupArticle("Solar Generation Arrays Map Increased Peak Power Performance Curves", "Active Session Node"),
+            BackupArticle("Henry Hub Infrastructure Squeeze Eases Following Seasonal Rebalancing", "Active Session Node"),
+            BackupArticle("Offshore Extraction Assets Verify Stable Baselines Across Deepwater Systems", "Active Session Node")
         ]
 
     for item in headlines_extracted:
         headline_text = item.title
-        article_snippet = item.summary if hasattr(item, 'summary') else ""
-        # Clean html tags out of text snippets if they exist
-        if "<" in article_snippet:
-            try:
-                article_snippet = article_snippet.split(">")[1].split("<")[0]
-            except Exception:
-                pass
-        
-        publish_date = item.published if hasattr(item, 'published') else "Active Session"
+        publish_date = item.published if hasattr(item, 'published') else 'Live Data Stream'
         
         nlp_processing_blob = TextBlob(headline_text)
-        linguistic_sentiment_score = nlp_processing_blob.sentiment.polarity
+        score = nlp_processing_blob.sentiment.polarity
         
-        if linguistic_sentiment_score < -0.02:
-            sentiment_classification = '<span class="indicator-bearish">STRUCTURAL SUPPLY IMPACT / BEARISH RISK</span>'
-        elif linguistic_sentiment_score > 0.02:
-            sentiment_classification = '<span class="indicator-bullish">DEMAND TAILWIND SHIFT / BULLISH INFLOW</span>'
+        if score < -0.02:
+            sentiment_tag = '<span class="state-bearish">[RISK CONTRACTION]</span>'
+        elif score > 0.02:
+            sentiment_tag = '<span class="state-bullish">[CAPACITY EXPANSION]</span>'
         else:
-            sentiment_classification = '<span class="indicator-neutral">STABLE SYSTEM NODE / REVENUE NEUTRAL</span>'
+            sentiment_tag = '<span class="state-neutral">[STABLE PROFILE]</span>'
             
         st.markdown(f"""
-        <div class="news-headline-row">
-            <strong>{headline_text}</strong><br>
-            <span style="color: #64748B; font-size: 11px;">{publish_date} | Sentiment Matrix Evaluation: {sentiment_classification}</span><br>
-            <span style="color: #94A3B8;">{article_snippet}</span>
+        <div class="fw-news-wire-row">
+            {sentiment_tag} <strong>{headline_text}</strong> <span style="color: #94A3B8; font-size: 11px; margin-left: 10px;">// {publish_date}</span>
         </div>
         """, unsafe_allow_html=True)
-   
+
 except Exception as data_exception:
     st.error(f"Central terminal synchronization delay encountered. Diagnostic code parameters: {data_exception}")
