@@ -128,6 +128,15 @@ st.markdown("""
         .state-pos { color: #16A34A !important; font-weight: 800; }
         .state-neg { color: #DC2626 !important; font-weight: 800; }
         .state-neu { color: #475569 !important; font-weight: 700; }
+
+        /* Forced Contrast styling for native elements inside expanders */
+        .stExpander {
+            background-color: #FFFFFF !important;
+            border: 2px solid #0F172A !important;
+        }
+        .stExpander p {
+            color: #0F172A !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -198,7 +207,40 @@ try:
     variance_persistence = alpha_coefficient + beta_coefficient
 
     # ----------------------------------------------------
-    # 3. Structural Operational Data Grid
+    # 3. High-Contrast Summary KPI Cards
+    # ----------------------------------------------------
+    st.markdown("""
+    <div style="display: flex; gap: 15px; margin-bottom: 25px;">
+        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #0F172A; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+            <div style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">System Volatility Status</div>
+            <div style="font-size: 22px; font-weight: 900; color: #0F172A; margin-top: 4px;">ELEVATED RISK MATRIX</div>
+        </div>
+        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #DC2626; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+            <div style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Value at Risk (VaR Threshold)</div>
+            <div style="font-size: 22px; font-weight: 900; color: #DC2626; margin-top: 4px;">{var_val:.2f}%</div>
+        </div>
+        <div style="flex: 1; background: #FFFFFF; border: 2px solid #0F172A; padding: 15px; border-left: 6px solid #16A34A; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+            <div style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.5px;">Variance Model Persistence</div>
+            <div style="font-size: 22px; font-weight: 900; color: #16A34A; margin-top: 4px;">{persist_val:.3f}</div>
+        </div>
+    </div>
+    """.format(var_val=var_limit, persist_val=variance_persistence), unsafe_allow_html=True)
+
+    # ----------------------------------------------------
+    # 4. Institutional Export Engine
+    # ----------------------------------------------------
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### DATA PORTABILITY")
+    csv_payload = df.to_csv().encode('utf-8')
+    st.sidebar.download_button(
+        label="📥 EXPORT DATA MATRIX (CSV)",
+        data=csv_payload,
+        file_name=f"{ticker}_terminal_metrics.csv",
+        mime="text/csv",
+    )
+
+    # ----------------------------------------------------
+    # 5. Structural Operational Data Grid
     # ----------------------------------------------------
     direction_class = "state-pos" if df['Log_Returns'].iloc[-1] >= 0 else "state-neg"
     
@@ -227,7 +269,7 @@ try:
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 4. Pure High-Contrast Plotly Implementation
+    # 6. Pure High-Contrast Plotly & Macro Zoom Interface
     # ----------------------------------------------------
     visual_grid = make_subplots(
         rows=1, cols=2, 
@@ -238,10 +280,26 @@ try:
     visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0F172A', width=2)), row=1, col=1)
     visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#B91C1C', width=2, dash='dash')), row=1, col=2)
     
+    # Range Selectors & Zoom Macros Integrated Directly onto Chart
+    visual_grid.update_xaxes(
+        rangeselector=dict(
+            buttons=list([
+                dict(count=1, label="1M", step="month", stepmode="backward"),
+                dict(count=6, label="6M", step="month", stepmode="backward"),
+                dict(count=1, label="YTD", step="year", stepmode="todate"),
+                dict(step="all", label="MAX")
+            ]),
+            bgcolor="#F1F5F9",
+            activecolor="#E2E8F0",
+            font=dict(color="#0F172A", size=10, family="Arial")
+        ),
+        row=1, col=1
+    )
+
     # Absolute theme override completely isolating fonts away from browser defaults
     visual_grid.update_layout(
         template="plotly_white", 
-        height=280, 
+        height=320, 
         showlegend=False, 
         margin=dict(l=50, r=20, t=50, b=50),
         paper_bgcolor='rgba(0,0,0,0)', 
@@ -249,18 +307,18 @@ try:
         font=dict(color='#0F172A', family='Arial', size=11)
     )
     
-    # Overriding X & Y Text Metrics with strict compliance (weight parameters instead of bold)
-    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11, weight='bold'))
-    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11, weight='bold'))
+    # Overriding X & Y Text Metrics with strict compliance
+    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11))
+    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11))
     
     # Enforce correct styling weights directly on the subplot title text annotations
     for annotation in visual_grid['layout']['annotations']:
-        annotation['font'] = dict(color='#0F172A', size=13, weight='bold', family='Arial')
+        annotation['font'] = dict(color='#0F172A', size=13, family='Arial')
         
     st.plotly_chart(visual_grid, use_container_width=True)
 
     # ----------------------------------------------------
-    # 5. Microclimate Table Overhaul (Forcing Dark Text HTML)
+    # 7. Microclimate Table (Forcing Dark Text HTML)
     # ----------------------------------------------------
     st.markdown(f"<div class='fw-section-header'>Microclimate Thermodynamic Load Grid — {asset_info['hq']}</div>", unsafe_allow_html=True)
     st.markdown(f"""
@@ -289,7 +347,7 @@ try:
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 6. Live News Wire Stream (Functional Hyperlinks + Fixed Contrast)
+    # 8. Live News Wire Stream (Fixed Contrast CSS Class)
     # ----------------------------------------------------
     st.markdown("<div class='fw-section-header'>Live Market Transmission Wire</div>", unsafe_allow_html=True)
     
@@ -337,10 +395,21 @@ try:
         st.markdown(f"""
         <div class="fw-news-wire-row">
             <a href="{article_url}" target="_blank" class="fw-wire-link">{headline_text}</a>
-            <br>
+            <br style="margin-bottom: 4px;">
             <span class="fw-wire-date">DATE: {publish_date}</span> &nbsp;&nbsp; {sentiment_tag}
         </div>
         """, unsafe_allow_html=True)
+
+    # ----------------------------------------------------
+    # 9. Executive Explander Documentation Node
+    # ----------------------------------------------------
+    st.markdown("<br>", unsafe_allow_html=True)
+    with st.expander("📖 TERMINAL METRIC PROTOCOLS & GLOSSARY MATRIX"):
+        st.markdown("""
+        * **Value at Risk (VaR):** Quantifies statistical threshold asset downside boundaries over a fixed 24-hour delivery block. 
+        * **Expected Shortfall (Tail VaR):** Evaluates asset metric degradation values assuming downside variance limits are completely cleared.
+        * **GARCH Volatility Persistence:** Measures tracking speed trends; high scores close to 1.0 indicate structural microclimates or supply shifts will heavily influence market risks long-term.
+        """)
 
 except Exception as data_exception:
     st.error(f"Central terminal synchronization delay encountered. Details: {data_exception}")
