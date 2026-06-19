@@ -205,7 +205,7 @@ try:
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 4. Explicit Contrast Plotly Rendering 
+    # 4. Explicit Contrast Plotly Rendering (Using Schema Rules)
     # ----------------------------------------------------
     visual_grid = make_subplots(
         rows=1, cols=2, 
@@ -216,20 +216,25 @@ try:
     visual_grid.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Settlement Price", line=dict(color='#0F172A', width=2)), row=1, col=1)
     visual_grid.add_trace(go.Scatter(x=projection_date_axis, y=annualized_vol_projection, name="Projected Variance", line=dict(color='#B91C1C', width=2, dash='dash')), row=1, col=2)
     
-    # Force pure black font labels on the graph axes to guarantee readability
+    # Global Font Rule Overrides using the exact valid property keys requested
     visual_grid.update_layout(
         template="plotly_white", 
         height=280, 
         showlegend=False, 
-        margin=dict(l=40, r=20, t=40, b=40),
+        margin=dict(l=50, r=20, t=40, b=40),
         paper_bgcolor='rgba(0,0,0,0)', 
         plot_bgcolor='#FFFFFF',
-        font=dict(color='#0F172A', family='Arial')
+        font=dict(color='#0F172A', family='Arial', size=11)
     )
     
-    # Overriding X & Y text labels explicitly
-    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=10, bold=True))
-    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=10, bold=True))
+    # Overriding X & Y Text Metrics with strict compliance (weight parameter instead of bold)
+    visual_grid.update_xaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11, weight='bold'))
+    visual_grid.update_yaxes(showgrid=True, gridcolor='#E2E8F0', linecolor='#0F172A', tickfont=dict(color='#0F172A', size=11, weight='bold'))
+    
+    # Enforce correct styling weights directly on the subplot title text annotations
+    for annotation in visual_grid['layout']['annotations']:
+        annotation['font'] = dict(color='#0F172A', size=13, weight='bold', family='Arial')
+        
     st.plotly_chart(visual_grid, use_container_width=True)
 
     # ----------------------------------------------------
@@ -262,7 +267,7 @@ try:
     """, unsafe_allow_html=True)
 
     # ----------------------------------------------------
-    # 6. Live News Infrastructure Wire (Removed Bracketed Text)
+    # 6. Live News Infrastructure Wire (Clean Text Output)
     # ----------------------------------------------------
     st.markdown("<div class='fw-section-header'>Live Market Transmission Wire</div>", unsafe_allow_html=True)
     
